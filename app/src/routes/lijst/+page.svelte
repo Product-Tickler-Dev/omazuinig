@@ -33,7 +33,7 @@
 
   let splitResult = $derived(calculateSplitSavings(items, getProduct));
   let splitStoreNames = $derived(
-    splitResult.storesUsed.map(id => getStore(id)?.name ?? id).join(', ')
+    splitResult.storesUsed.map(id => getStore(id)?.name ?? id)
   );
 
   function addItem(productId: number) {
@@ -54,7 +54,7 @@
 
   <div class="search-wrapper">
     <div class="search-box">
-      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/>
         <path d="M21 21l-4.35-4.35"/>
       </svg>
@@ -70,6 +70,7 @@
         {#each searchResults as product}
           <button class="autocomplete-item" onclick={() => addItem(product.id)}>
             <span class="ac-name">{product.name}</span>
+            <span class="ac-price">{formatPrice(getCheapestStore(product)[1])}</span>
             <span class="ac-size">{product.size}</span>
           </button>
         {/each}
@@ -93,7 +94,8 @@
 
     <div class="advice-panel">
       <div class="advice-header">
-        <strong>Oma's Advies</strong>
+        <img src="/oma-avatar.png" alt="" class="advice-avatar" />
+        <strong class="advice-title">Oma's Advies</strong>
       </div>
       <div class="mode-toggle">
         <button
@@ -107,11 +109,18 @@
           onclick={() => adviceMode = 'split'}
         >Max besparing</button>
       </div>
-      <div class="advice-text">
+      <div class="advice-content">
         {#if adviceMode === 'single'}
-          <p>Ga naar <strong>{cheapestStoreName}</strong> &mdash; totaal {formatPrice(cheapestStoreTotal)}</p>
+          <p class="advice-text">Ga naar <strong>{cheapestStoreName}</strong></p>
+          <span class="advice-total">{formatPrice(cheapestStoreTotal)}</span>
         {:else}
-          <p><strong>{splitStoreNames}</strong> = {formatPrice(splitResult.splitTotal)} &mdash; besparing {formatPrice(splitResult.savings)}!</p>
+          <div class="split-stores">
+            {#each splitStoreNames as storeName}
+              <span class="store-pill">{storeName}</span>
+            {/each}
+          </div>
+          <span class="advice-total">{formatPrice(splitResult.splitTotal)}</span>
+          <span class="advice-savings">Besparing: {formatPrice(splitResult.savings)}</span>
         {/if}
       </div>
     </div>
@@ -120,7 +129,7 @@
 
 <style>
   .page {
-    padding: var(--space-4);
+    padding: var(--space-5);
     padding-bottom: 200px;
     display: flex;
     flex-direction: column;
@@ -136,16 +145,17 @@
   }
 
   .top-bar h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .count-badge {
     background: var(--orange);
     color: white;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
-    padding: 2px 10px;
+    padding: 3px 12px;
     border-radius: var(--radius-full);
+    box-shadow: 0 2px 8px rgba(255, 98, 0, 0.2);
   }
 
   .search-wrapper {
@@ -160,40 +170,41 @@
 
   .search-icon {
     position: absolute;
-    left: 14px;
+    left: 16px;
     color: var(--gray-400);
     pointer-events: none;
   }
 
   .search-input {
     width: 100%;
-    padding: var(--space-3) var(--space-4) var(--space-3) 42px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    font-size: 15px;
+    padding: 14px var(--space-4) 14px 48px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    font-size: 16px;
     font-family: inherit;
     background: white;
     outline: none;
-    transition: border-color var(--transition-fast);
+    transition: all var(--transition-fast);
     color: var(--dark);
+    box-shadow: var(--shadow-xs);
   }
 
   .search-input:focus {
     border-color: var(--orange);
+    box-shadow: var(--shadow-sm), 0 0 0 3px rgba(255, 98, 0, 0.08);
   }
 
   .autocomplete {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 4px);
     left: 0;
     right: 0;
     background: white;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
     z-index: 10;
     overflow: hidden;
-    border: 1px solid var(--gray-200);
-    border-top: none;
+    animation: fadeIn 0.15s ease;
   }
 
   .autocomplete-item {
@@ -206,9 +217,14 @@
     background: none;
     cursor: pointer;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 15px;
     text-align: left;
     transition: background var(--transition-fast);
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .autocomplete-item:last-child {
+    border-bottom: none;
   }
 
   .autocomplete-item:hover {
@@ -218,6 +234,15 @@
   .ac-name {
     font-weight: 600;
     flex: 1;
+  }
+
+  .ac-price {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--green-dark);
+    background: var(--green-light);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
   }
 
   .ac-size {
@@ -233,21 +258,33 @@
 
   .advice-panel {
     position: sticky;
-    bottom: 68px;
+    bottom: 72px;
     background: white;
     border-radius: var(--radius-lg);
-    padding: var(--space-4);
+    padding: var(--space-5);
     box-shadow: var(--shadow-up);
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+    border-left: 4px solid var(--orange);
   }
 
   .advice-header {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    font-size: 15px;
+    gap: var(--space-3);
+  }
+
+  .advice-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(255, 98, 0, 0.15);
+  }
+
+  .advice-title {
+    font-size: 16px;
     color: var(--dark);
   }
 
@@ -255,15 +292,15 @@
     display: flex;
     gap: 0;
     background: var(--gray-100);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-full);
     padding: 3px;
   }
 
   .mode-btn {
     flex: 1;
-    padding: 7px var(--space-3);
+    padding: 8px var(--space-3);
     border: none;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius-full);
     background: transparent;
     font-size: 13px;
     font-weight: 600;
@@ -276,7 +313,14 @@
   .mode-btn.active {
     background: white;
     color: var(--orange);
-    box-shadow: var(--shadow-xs);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .advice-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
   }
 
   .advice-text {
@@ -285,6 +329,38 @@
   }
 
   .advice-text strong {
+    color: var(--orange);
+  }
+
+  .advice-total {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--green-dark);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .advice-savings {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+    background: var(--green-light);
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+  }
+
+  .split-stores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .store-pill {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background: var(--orange-light);
     color: var(--orange);
   }
 </style>

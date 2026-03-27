@@ -21,7 +21,7 @@
 <style>
   .pills {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     overflow-x: auto;
     padding: 4px 0;
     -webkit-overflow-scrolling: touch;
@@ -34,22 +34,28 @@
 
   .pill {
     flex-shrink: 0;
-    padding: 5px 14px;
+    padding: 8px 18px;
     border-radius: var(--radius-full);
-    border: 1.5px solid var(--blue);
+    border: 2px solid var(--blue);
     background: transparent;
     color: var(--blue);
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
     text-transform: capitalize;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .pill:active {
+    transform: scale(0.95);
   }
 
   .pill.active {
     background: var(--blue);
     color: white;
     border-color: var(--blue);
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.2);
   }
 
   .pill:hover:not(.active) {

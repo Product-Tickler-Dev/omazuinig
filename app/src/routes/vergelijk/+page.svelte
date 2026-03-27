@@ -24,7 +24,7 @@
   </header>
 
   <div class="search-box">
-    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"/>
       <path d="M21 21l-4.35-4.35"/>
     </svg>
@@ -43,7 +43,9 @@
   />
 
   {#if filteredProducts.length === 0}
-    <OmaBubble text="Niks gevonden. Probeer iets anders!" />
+    <div class="empty-state">
+      <OmaBubble text="Niks gevonden, lieverd. Probeer iets anders!" />
+    </div>
   {:else}
     <div class="product-list">
       {#each filteredProducts as product (product.id)}
@@ -55,11 +57,11 @@
 
 <style>
   .page {
-    padding: var(--space-4);
-    padding-bottom: 88px;
+    padding: var(--space-5);
+    padding-bottom: 96px;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--space-4);
     overflow-x: hidden;
   }
 
@@ -68,7 +70,7 @@
   }
 
   .top-bar h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .search-box {
@@ -79,26 +81,33 @@
 
   .search-icon {
     position: absolute;
-    left: 14px;
+    left: 18px;
     color: var(--gray-400);
     pointer-events: none;
   }
 
   .search-input {
     width: 100%;
-    padding: var(--space-3) var(--space-4) var(--space-3) 42px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    font-size: 15px;
+    height: 56px;
+    padding: 0 var(--space-4) 0 52px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    font-size: 16px;
     font-family: inherit;
     background: white;
     outline: none;
-    transition: border-color var(--transition-fast);
+    transition: all var(--transition-fast);
     color: var(--dark);
+    box-shadow: var(--shadow-sm);
   }
 
   .search-input:focus {
     border-color: var(--orange);
+    box-shadow: var(--shadow-sm), 0 0 0 3px rgba(255, 98, 0, 0.08);
+  }
+
+  .empty-state {
+    padding: var(--space-8) 0;
   }
 
   .product-list {

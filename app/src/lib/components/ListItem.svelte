@@ -15,10 +15,20 @@
     product ? Object.entries(product.prices).sort((a, b) => a[1] - b[1]).slice(0, 3) : []
   );
   let cheapestId = $derived(product ? getCheapestStore(product)[0] : '');
+
+  const categoryColors: Record<string, string> = {
+    zuivel: '#4FC3F7',
+    brood: '#FFB74D',
+    groente: '#81C784',
+    dranken: '#BA68C8'
+  };
+
+  let catColor = $derived(product ? categoryColors[product.category] ?? '#BDBDBD' : '#BDBDBD');
 </script>
 
 {#if product}
-  <div class="list-item" class:checked>
+  <div class="list-item" class:checked style:--cat-color={catColor}>
+    <div class="cat-accent"></div>
     <button class="checkbox" class:is-checked={checked} onclick={ontoggle}>
       {#if checked}
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -52,14 +62,24 @@
     gap: var(--space-3);
     background: white;
     border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
+    padding: 14px var(--space-4) 14px 0;
     box-shadow: var(--shadow-xs);
     animation: slideUp 0.3s ease-out;
     transition: opacity var(--transition-base);
+    overflow: hidden;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .cat-accent {
+    width: 3px;
+    align-self: stretch;
+    background: var(--cat-color);
+    flex-shrink: 0;
+    border-radius: 0 2px 2px 0;
   }
 
   .list-item.checked {
-    opacity: 0.4;
+    opacity: 0.35;
   }
 
   .list-item.checked .name {
@@ -68,9 +88,9 @@
   }
 
   .checkbox {
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     border: 2px solid var(--gray-300);
     background: white;
     cursor: pointer;
@@ -85,6 +105,7 @@
   .checkbox.is-checked {
     background: var(--orange);
     border-color: var(--orange);
+    box-shadow: 0 2px 6px rgba(255, 98, 0, 0.25);
   }
 
   .info {
@@ -103,7 +124,7 @@
   }
 
   .name {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
     transition: all var(--transition-base);
   }
@@ -125,14 +146,15 @@
     cursor: pointer;
     color: var(--gray-300);
     flex-shrink: 0;
-    padding: 4px;
-    border-radius: 4px;
-    transition: color var(--transition-fast);
+    padding: 6px;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
     display: flex;
     align-items: center;
   }
 
   .remove:hover {
     color: var(--red);
+    background: var(--red-light);
   }
 </style>

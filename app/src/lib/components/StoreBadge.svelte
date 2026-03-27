@@ -12,23 +12,28 @@
   let store = $derived(getStore(storeId));
 </script>
 
-<span
-  class="badge"
-  class:cheapest
-  class:duur
-  class:default={!cheapest && !duur}
-  style:--store-color={store?.color ?? '#888'}
->
-  <span class="name">{store?.short ?? storeId}</span>
-  <span class="price" class:strikethrough={duur}>{formatPrice(price)}</span>
-</span>
+{#if !duur}
+  <span
+    class="badge"
+    class:cheapest
+    class:default={!cheapest}
+  >
+    <span class="name">{store?.short ?? storeId}</span>
+    <span class="price">{formatPrice(price)}</span>
+  </span>
+{:else}
+  <span class="badge faded">
+    <span class="name">{store?.short ?? storeId}</span>
+    <span class="price">{formatPrice(price)}</span>
+  </span>
+{/if}
 
 <style>
   .badge {
     display: inline-flex;
     align-items: center;
-    gap: 3px;
-    padding: 3px 7px;
+    gap: 4px;
+    padding: 4px 8px;
     border-radius: var(--radius-full);
     font-size: 12px;
     font-weight: 600;
@@ -39,32 +44,42 @@
   .badge.cheapest {
     background: var(--green-light);
     color: var(--green-dark);
+    font-size: 13px;
+    padding: 4px 10px;
   }
 
-  .badge.duur {
-    background: var(--gray-100);
-    color: var(--gray-500);
+  .badge.cheapest .price {
+    font-size: 13px;
+    font-weight: 700;
   }
 
   .badge.default {
     background: var(--gray-100);
-    color: var(--store-color);
+    color: var(--gray-700);
+  }
+
+  .badge.faded {
+    background: transparent;
+    color: var(--gray-400);
+    opacity: 0.5;
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  .badge.faded .price {
+    text-decoration: line-through;
+    font-size: 11px;
   }
 
   .name {
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 9px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
   }
 
   .price {
     font-weight: 700;
     font-size: 12px;
-  }
-
-  .strikethrough {
-    text-decoration: line-through;
-    color: var(--gray-400);
   }
 </style>

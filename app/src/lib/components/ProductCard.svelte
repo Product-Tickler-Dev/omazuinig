@@ -28,47 +28,64 @@
   }
 </script>
 
-<div class="product-card">
-  <div class="header">
-    <span class="dot" style:background={dotColor}></span>
-    <div class="title">
-      <span class="name">{product.name}</span>
-      <span class="meta">{product.brand}{product.brand && product.size ? ' \u2022 ' : ''}{product.size}</span>
+<div class="product-card" style:--cat-color={dotColor}>
+  <div class="cat-border"></div>
+  <div class="card-body">
+    <div class="header">
+      <span class="dot" style:background={dotColor}></span>
+      <div class="title">
+        <span class="name">{product.name}</span>
+        <span class="meta">{product.brand}{product.brand && product.size ? ' \u2022 ' : ''}{product.size}</span>
+      </div>
     </div>
-  </div>
 
-  <div class="badges">
-    {#each sortedPrices as [storeId, price], i}
-      <StoreBadge
-        {storeId}
-        {price}
-        cheapest={storeId === cheapest[0]}
-        duur={storeId === expensive[0]}
-      />
-    {/each}
-  </div>
+    <div class="badges">
+      {#each sortedPrices as [storeId, price], i}
+        <StoreBadge
+          {storeId}
+          {price}
+          cheapest={storeId === cheapest[0]}
+          duur={storeId === expensive[0]}
+        />
+      {/each}
+    </div>
 
-  <div class="footer">
-    <span class="keuze">Oma's Keuze: <strong>{formatPrice(cheapest[1])}</strong></span>
-    <button class="add-btn" onclick={addToList}>+ Lijst</button>
+    <div class="footer">
+      <span class="keuze">Oma's Keuze: <strong>{formatPrice(cheapest[1])}</strong></span>
+      <button class="add-btn" onclick={addToList}>+ Lijst</button>
+    </div>
   </div>
 </div>
 
 <style>
   .product-card {
     background: white;
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    overflow: hidden;
     animation: slideUp 0.3s ease-out;
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
 
   .product-card:hover {
     box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .cat-border {
+    width: 3px;
+    flex-shrink: 0;
+    background: var(--cat-color);
+  }
+
+  .card-body {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
   }
 
   .header {
@@ -97,7 +114,7 @@
   }
 
   .meta {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--gray-500);
     margin-top: 1px;
   }
@@ -127,18 +144,25 @@
   }
 
   .add-btn {
-    background: transparent;
-    color: var(--green-dark);
-    border: 1.5px solid var(--green);
-    border-radius: var(--radius-sm);
-    padding: 5px 14px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 7px 16px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 200, 83, 0.2);
   }
 
   .add-btn:hover {
-    background: var(--green-light);
+    background: var(--green-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-green);
+  }
+
+  .add-btn:active {
+    transform: scale(0.96);
   }
 </style>

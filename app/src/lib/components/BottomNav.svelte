@@ -17,7 +17,7 @@
       class="nav-link"
       class:active={$page.url.pathname === link.href}
     >
-      <span class="icon">
+      <span class="icon-wrap" class:icon-active={$page.url.pathname === link.href}>
         {#if link.icon === 'home'}
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
@@ -46,9 +46,6 @@
         {/if}
       </span>
       <span class="label">{link.label}</span>
-      {#if $page.url.pathname === link.href}
-        <span class="active-dot"></span>
-      {/if}
     </a>
   {/each}
 </nav>
@@ -65,9 +62,10 @@
     justify-content: space-around;
     background: white;
     border-top: 1px solid var(--gray-200);
-    padding: 4px 0;
-    padding-bottom: max(4px, env(safe-area-inset-bottom));
+    padding: 6px 0;
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
     z-index: 100;
+    height: 64px;
   }
 
   .nav-link {
@@ -78,12 +76,16 @@
     color: var(--gray-400);
     font-size: 11px;
     font-weight: 500;
-    padding: 8px 12px 4px;
-    min-height: 56px;
+    padding: 4px 14px;
     justify-content: center;
-    gap: 2px;
+    gap: 3px;
     position: relative;
     transition: color var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-link:active .icon-wrap {
+    transform: scale(0.9);
   }
 
   .nav-link.active {
@@ -91,28 +93,28 @@
     font-weight: 600;
   }
 
-  .icon {
+  .icon-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 24px;
+    width: 40px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
   }
 
-  .nav-link.active .icon svg {
+  .icon-wrap.icon-active {
+    background: var(--orange-light);
+    transform: scale(1);
+  }
+
+  .icon-wrap.icon-active svg {
+    stroke: var(--orange);
     stroke-width: 2.5;
   }
 
   .label {
-    margin-top: 1px;
     letter-spacing: 0.01em;
-  }
-
-  .active-dot {
-    position: absolute;
-    bottom: 2px;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--orange);
+    line-height: 1;
   }
 </style>
