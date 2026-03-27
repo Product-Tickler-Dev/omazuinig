@@ -45,13 +45,6 @@
 </script>
 
 <div class="page">
-  <div class="page-meta">
-    <span class="page-label">Boodschappenlijst</span>
-    {#if items.length > 0}
-      <span class="count-badge">{items.length}</span>
-    {/if}
-  </div>
-
   <div class="search-wrapper">
     <div class="search-box">
       <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -1,16 +1,27 @@
 <script lang="ts">
   import '../app.css';
+  import { page } from '$app/stores';
   import BottomNav from '$lib/components/BottomNav.svelte';
   import Toast from '$lib/components/Toast.svelte';
   import Celebration from '$lib/components/Celebration.svelte';
 
   let { children } = $props();
+
+  const titles: Record<string, string> = {
+    '/': 'Oma Zuinig',
+    '/lijst': 'Boodschappenlijst',
+    '/vergelijk': 'Vergelijk',
+    '/deals': 'Aanbiedingen',
+    '/mijn-oma': 'Mijn Oma'
+  };
+
+  let title = $derived(titles[$page.url.pathname] ?? 'Oma Zuinig');
 </script>
 
 <div class="app-shell">
   <header class="app-header">
     <img src="/oma-avatar.png" alt="" class="header-oma" />
-    <span class="header-title">Oma Zuinig</span>
+    <span class="header-title">{title}</span>
   </header>
   {@render children()}
   <BottomNav />
