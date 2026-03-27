@@ -1,0 +1,19 @@
+{
+  "planPath": "docs/plans/2026-03-27-sveltekit-implementation.md",
+  "tasks": [
+    {"id": 26, "subject": "Task 0: Scaffold SvelteKit project", "status": "pending"},
+    {"id": 27, "subject": "Task 1: Design system", "status": "pending", "blockedBy": [26]},
+    {"id": 28, "subject": "Task 2: Data layer", "status": "pending", "blockedBy": [27]},
+    {"id": 29, "subject": "Task 3: Svelte stores", "status": "pending", "blockedBy": [28]},
+    {"id": 30, "subject": "Task 4: Component library", "status": "pending", "blockedBy": [29]},
+    {"id": 31, "subject": "Task 5: Layout", "status": "pending", "blockedBy": [30]},
+    {"id": 32, "subject": "Task 6: Home page", "status": "pending", "blockedBy": [31]},
+    {"id": 33, "subject": "Task 7: Lijst page", "status": "pending", "blockedBy": [31]},
+    {"id": 34, "subject": "Task 8: Vergelijk page", "status": "pending", "blockedBy": [31]},
+    {"id": 35, "subject": "Task 9: Deals page", "status": "pending", "blockedBy": [31]},
+    {"id": 36, "subject": "Task 10: Mijn Oma page", "status": "pending", "blockedBy": [31]},
+    {"id": 37, "subject": "Task 11: PWA manifest", "status": "pending", "blockedBy": [32, 33, 34, 35, 36]},
+    {"id": 38, "subject": "Task 12: Build verification", "status": "pending", "blockedBy": [37]}
+  ],
+  "lastUpdated": "2026-03-27T14:00:00Z"
+}
