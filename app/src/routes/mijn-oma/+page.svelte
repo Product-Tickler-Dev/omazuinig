@@ -66,6 +66,7 @@
 
 <div class="page">
   <header class="top-bar">
+    <img src="/oma-avatar.png" alt="" class="top-oma" />
     <h1>Mijn Oma</h1>
   </header>
 
@@ -165,11 +166,22 @@
   }
 
   .top-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     padding: var(--space-1) 0;
   }
 
+  .top-oma {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
   .top-bar h1 {
-    font-size: 24px;
+    font-size: 22px;
+    color: var(--orange);
   }
 
   .profile-hero {
