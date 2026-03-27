@@ -3,7 +3,6 @@
   import { PRODUCTS } from '$lib/data/products';
   import DealCard from '$lib/components/DealCard.svelte';
   import ProductCard from '$lib/components/ProductCard.svelte';
-  import OmaBubble from '$lib/components/OmaBubble.svelte';
   import { toasts } from '$lib/stores/toast';
 
   const topDeals = [...DEALS].sort((a, b) => b.discount - a.discount);
@@ -83,9 +82,6 @@
     {/each}
   </div>
 
-  <div class="home-oma-tip">
-    <OmaBubble text="Tip: voeg producten toe aan je lijst en ik zoek de goedkoopste winkel!" />
-  </div>
 </div>
 
 <style>
@@ -110,7 +106,6 @@
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 2px 8px rgba(255, 98, 0, 0.2);
   }
 
   .logo {
@@ -213,57 +208,47 @@
     align-items: center;
     gap: var(--space-2);
     border-radius: var(--radius-lg);
-    padding: var(--space-5) var(--space-2);
+    padding: var(--space-4) var(--space-2);
     text-decoration: none;
     color: var(--dark);
     border: none;
+    background: transparent;
     cursor: pointer;
     font-family: inherit;
-    transition: all var(--transition-fast);
+    transition: background var(--transition-fast);
     -webkit-tap-highlight-color: transparent;
   }
 
-  .action-btn:active {
-    transform: scale(0.96);
-  }
-
   .action-btn:hover {
-    transform: translateY(-2px);
+    background: var(--gray-50);
   }
 
-  .action-orange {
-    background: var(--orange-light);
+  .action-btn:active {
+    opacity: 0.8;
   }
 
   .action-orange .action-icon-wrap {
     color: var(--orange);
-  }
-
-  .action-green {
-    background: var(--green-light);
+    background: var(--orange-light);
   }
 
   .action-green .action-icon-wrap {
     color: var(--green-dark);
-  }
-
-  .action-blue {
-    background: var(--blue-light);
+    background: var(--green-light);
   }
 
   .action-blue .action-icon-wrap {
     color: var(--blue);
+    background: var(--blue-light);
   }
 
   .action-icon-wrap {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-xs);
   }
 
   .action-label {
@@ -314,7 +299,7 @@
     top: 0;
     flex-shrink: 0;
     width: 40px;
-    background: linear-gradient(to left, var(--cream), transparent);
+    background: linear-gradient(to left, #FAFAFA, transparent);
     pointer-events: none;
   }
 
@@ -330,10 +315,5 @@
   .products-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .home-oma-tip {
-    padding: var(--space-2) 0;
   }
 </style>

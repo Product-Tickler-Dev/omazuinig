@@ -155,7 +155,6 @@
     font-weight: 700;
     padding: 3px 12px;
     border-radius: var(--radius-full);
-    box-shadow: 0 2px 8px rgba(255, 98, 0, 0.2);
   }
 
   .search-wrapper {
@@ -186,12 +185,11 @@
     outline: none;
     transition: all var(--transition-fast);
     color: var(--dark);
-    box-shadow: var(--shadow-xs);
   }
 
   .search-input:focus {
     border-color: var(--orange);
-    box-shadow: var(--shadow-sm), 0 0 0 3px rgba(255, 98, 0, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 98, 0, 0.08);
   }
 
   .autocomplete {
@@ -201,7 +199,8 @@
     right: 0;
     background: white;
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #F0F0F0;
     z-index: 10;
     overflow: hidden;
     animation: fadeIn 0.15s ease;
@@ -253,7 +252,6 @@
   .list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
   }
 
   .advice-panel {
@@ -262,7 +260,8 @@
     background: white;
     border-radius: var(--radius-lg);
     padding: var(--space-5);
-    box-shadow: var(--shadow-up);
+    border: 1px solid #F0F0F0;
+    box-shadow: 0 -1px 3px rgba(0,0,0,0.04);
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
@@ -313,7 +312,7 @@
   .mode-btn.active {
     background: white;
     color: var(--orange);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
   .advice-content {

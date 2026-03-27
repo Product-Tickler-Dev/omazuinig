@@ -56,7 +56,7 @@
     background: var(--blue);
     color: white;
     border-color: var(--blue);
-    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.2);
+    box-shadow: none;
   }
 
   .pill:hover:not(.active) {

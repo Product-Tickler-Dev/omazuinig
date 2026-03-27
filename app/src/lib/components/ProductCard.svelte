@@ -55,18 +55,9 @@
 
 <style>
   .product-card {
-    background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
     display: flex;
     overflow: hidden;
-    animation: slideUp 0.3s ease-out;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  .product-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
+    border-bottom: 1px solid #F0F0F0;
   }
 
   .cat-border {
@@ -149,17 +140,14 @@
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: all var(--transition-fast);
-    box-shadow: 0 2px 8px rgba(0, 200, 83, 0.2);
+    transition: background var(--transition-fast);
   }
 
   .add-btn:hover {
     background: var(--green-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-green);
   }
 
   .add-btn:active {
-    transform: scale(0.96);
+    opacity: 0.85;
   }
 </style>

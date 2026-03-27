@@ -207,10 +207,9 @@
   }
 
   .chart-section {
-    background: white;
+    background: #F8F8F8;
     border-radius: var(--radius-lg);
     padding: var(--space-5);
-    box-shadow: var(--shadow-sm);
   }
 
   .section-heading {
@@ -275,10 +274,9 @@
   }
 
   .level-section {
-    background: white;
+    background: #F8F8F8;
     border-radius: var(--radius-lg);
     padding: var(--space-5);
-    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
@@ -368,7 +366,6 @@
   .settings-section {
     display: flex;
     flex-direction: column;
-    gap: 2px;
   }
 
   .settings-section .section-heading {
@@ -380,21 +377,19 @@
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    background: white;
-    padding: var(--space-4);
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-xs);
+    background: transparent;
+    padding: var(--space-4) 0;
     border: none;
+    border-bottom: 1px solid #F0F0F0;
     cursor: pointer;
     font-family: inherit;
     width: 100%;
     text-align: left;
-    transition: all var(--transition-fast);
+    transition: background var(--transition-fast);
   }
 
   .setting-row:hover {
     background: var(--gray-50);
-    transform: translateX(2px);
   }
 
   .setting-label {

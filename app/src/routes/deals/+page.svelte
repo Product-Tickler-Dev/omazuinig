@@ -127,7 +127,7 @@
     background: var(--tab-color, var(--orange));
     color: white;
     border-color: var(--tab-color, var(--orange));
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--tab-color, var(--orange)) 30%, transparent);
+    box-shadow: none;
   }
 
   .tab:hover:not(.active) {

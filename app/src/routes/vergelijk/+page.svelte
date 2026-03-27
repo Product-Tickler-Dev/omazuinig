@@ -98,12 +98,11 @@
     outline: none;
     transition: all var(--transition-fast);
     color: var(--dark);
-    box-shadow: var(--shadow-sm);
   }
 
   .search-input:focus {
     border-color: var(--orange);
-    box-shadow: var(--shadow-sm), 0 0 0 3px rgba(255, 98, 0, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 98, 0, 0.08);
   }
 
   .empty-state {
@@ -113,6 +112,5 @@
   .product-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
   }
 </style>

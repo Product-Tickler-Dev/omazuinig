@@ -45,22 +45,21 @@
   .deal-card {
     background: white;
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    border: 1px solid #F0F0F0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     display: flex;
     flex-direction: column;
     min-height: 140px;
     overflow: hidden;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    animation: bounceIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: border-color var(--transition-fast);
   }
 
   .deal-card:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-md);
+    border-color: var(--gray-300);
   }
 
   .deal-card:active {
-    transform: scale(0.99);
+    opacity: 0.9;
   }
 
   .store-stripe {
@@ -97,7 +96,6 @@
     font-weight: 700;
     padding: 3px 10px;
     border-radius: var(--radius-full);
-    box-shadow: 0 2px 8px rgba(255, 98, 0, 0.2);
   }
 
   .product-info {
@@ -166,7 +164,5 @@
     padding: 4px 10px;
     border-radius: var(--radius-full);
     white-space: nowrap;
-    animation: subtlePulse 2s ease-in-out infinite;
-    box-shadow: 0 2px 8px rgba(255, 98, 0, 0.2);
   }
 </style>

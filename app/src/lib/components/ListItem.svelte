@@ -56,14 +56,10 @@
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    background: white;
-    border-radius: var(--radius-md);
     padding: 14px var(--space-4) 14px 0;
-    box-shadow: var(--shadow-xs);
-    animation: slideUp 0.3s ease-out;
     transition: opacity var(--transition-base);
     overflow: hidden;
-    border-bottom: 1px solid var(--gray-100);
+    border-bottom: 1px solid #F0F0F0;
   }
 
   .cat-accent {
@@ -71,7 +67,6 @@
     align-self: stretch;
     background: var(--cat-color);
     flex-shrink: 0;
-    border-radius: 0 2px 2px 0;
   }
 
   .list-item.checked {
