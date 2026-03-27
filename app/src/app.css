@@ -39,11 +39,11 @@
 	--shadow-orange: 0 8px 24px rgba(255, 98, 0, 0.15);
 	--shadow-green: 0 8px 24px rgba(0, 200, 83, 0.12);
 
-	--radius-xs: 8px;
-	--radius-sm: 12px;
-	--radius-md: 16px;
-	--radius-lg: 20px;
-	--radius-xl: 24px;
+	--radius-xs: 4px;
+	--radius-sm: 8px;
+	--radius-md: 10px;
+	--radius-lg: 12px;
+	--radius-xl: 16px;
 	--radius-full: 999px;
 
 	--transition-fast: 150ms ease;
