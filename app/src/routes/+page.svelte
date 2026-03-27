@@ -10,11 +10,6 @@
 </script>
 
 <div class="page">
-  <header class="top-bar">
-    <img src="/oma-avatar.png" alt="Oma" class="top-avatar" />
-    <span class="logo">Oma Zuinig</span>
-  </header>
-
   <div class="hero">
     <div class="hero-content">
       <span class="hero-greeting">Hoi lieverd!</span>
@@ -94,27 +89,6 @@
     flex-direction: column;
     gap: var(--space-6);
     overflow-x: hidden;
-  }
-
-  .top-bar {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-1) 0;
-  }
-
-  .top-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .logo {
-    color: var(--orange);
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
   }
 
   .hero {

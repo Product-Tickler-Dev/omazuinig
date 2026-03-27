@@ -20,11 +20,6 @@
 </script>
 
 <div class="page">
-  <header class="top-bar">
-    <img src="/oma-avatar.png" alt="" class="top-oma" />
-    <h1>Aanbiedingen</h1>
-  </header>
-
   <div class="store-tabs" role="tablist" aria-label="Filter op winkel">
     <button
       class="tab"
@@ -82,26 +77,6 @@
     flex-direction: column;
     gap: var(--space-5);
     overflow-x: hidden;
-  }
-
-  .top-bar {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-1) 0;
-  }
-
-  .top-oma {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .top-bar h1 {
-    font-size: 26px;
-    letter-spacing: -0.02em;
-    color: var(--orange);
   }
 
   .store-tabs {

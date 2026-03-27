@@ -45,13 +45,12 @@
 </script>
 
 <div class="page">
-  <header class="top-bar">
-    <img src="/oma-avatar.png" alt="" class="top-oma" />
-    <h1>Boodschappenlijst</h1>
+  <div class="page-meta">
+    <span class="page-label">Boodschappenlijst</span>
     {#if items.length > 0}
       <span class="count-badge">{items.length}</span>
     {/if}
-  </header>
+  </div>
 
   <div class="search-wrapper">
     <div class="search-box">
@@ -138,24 +137,16 @@
     overflow-x: hidden;
   }
 
-  .top-bar {
+  .page-meta {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-1) 0;
+    gap: var(--space-2);
   }
 
-  .top-oma {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .top-bar h1 {
-    font-size: 26px;
-    letter-spacing: -0.02em;
-    color: var(--orange);
+  .page-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gray-600);
   }
 
   .count-badge {

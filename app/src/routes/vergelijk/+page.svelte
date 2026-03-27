@@ -19,11 +19,6 @@
 </script>
 
 <div class="page">
-  <header class="top-bar">
-    <img src="/oma-avatar.png" alt="" class="top-oma" />
-    <h1>Vergelijk</h1>
-  </header>
-
   <div class="search-box">
     <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"/>
@@ -64,26 +59,6 @@
     flex-direction: column;
     gap: var(--space-4);
     overflow-x: hidden;
-  }
-
-  .top-bar {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-1) 0;
-  }
-
-  .top-oma {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .top-bar h1 {
-    font-size: 26px;
-    letter-spacing: -0.02em;
-    color: var(--orange);
   }
 
   .search-box {
