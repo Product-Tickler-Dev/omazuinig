@@ -15,14 +15,12 @@
 
 {#if product && store}
   <div class="deal-card">
-    <div class="store-stripe" style:background={store.color}></div>
     <div class="card-body">
       <div class="card-top">
         <span class="store-name" style:color={store.color}>{store.name}</span>
         <span class="discount-badge">-{deal.discount}%</span>
       </div>
       <div class="product-info">
-        <span class="dot" style:background={dotColor}></span>
         <div class="product-text">
           <span class="product-name">{product.name}</span>
           <span class="product-meta">{product.brand}{product.brand && product.size ? ' \u2022 ' : ''}{product.size}</span>
@@ -44,9 +42,7 @@
 <style>
   .deal-card {
     background: white;
-    border-radius: var(--radius-lg);
-    border: 1px solid #F0F0F0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid #E8E8E8;
     display: flex;
     flex-direction: column;
     min-height: 140px;
@@ -60,12 +56,6 @@
 
   .deal-card:active {
     opacity: 0.9;
-  }
-
-  .store-stripe {
-    height: 4px;
-    width: 100%;
-    flex-shrink: 0;
   }
 
   .card-body {
