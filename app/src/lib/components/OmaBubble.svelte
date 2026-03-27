@@ -41,11 +41,8 @@
 
   .bubble {
     position: relative;
-    background: white;
-    border: 2px solid var(--orange-light);
-    border-radius: var(--radius-lg);
+    background: #F8F5F0;
     padding: var(--space-3) var(--space-4);
-    box-shadow: 0 2px 8px rgba(255, 98, 0, 0.08);
   }
 
   .bubble-tail {

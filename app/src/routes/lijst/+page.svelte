@@ -258,14 +258,11 @@
     position: sticky;
     bottom: 72px;
     background: white;
-    border-radius: var(--radius-lg);
     padding: var(--space-5);
-    border: 1px solid #F0F0F0;
-    box-shadow: 0 -1px 3px rgba(0,0,0,0.04);
+    border-top: 1px solid #E8E8E8;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    border-left: 4px solid var(--orange);
   }
 
   .advice-header {
