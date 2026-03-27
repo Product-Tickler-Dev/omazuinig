@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Product } from '$lib/data/types';
   import { getCheapestStore, getMostExpensiveStore, formatPrice } from '$lib/utils/price';
-  import { getCategoryColor } from '$lib/data/categories';
   import StoreBadge from './StoreBadge.svelte';
   import { shoppingList } from '$lib/stores/shoppingList';
   import { toasts } from '$lib/stores/toast';
@@ -14,16 +13,13 @@
     Object.entries(product.prices).sort((a, b) => a[1] - b[1])
   );
 
-  let catColor = $derived(getCategoryColor(product.category));
-
   function addToList() {
     shoppingList.add(product.id);
     toasts.show(`${product.name} toegevoegd!`);
   }
 </script>
 
-<div class="product-card" style:--cat-color={catColor}>
-  <div class="cat-border"></div>
+<div class="product-card">
   <div class="card-body">
     <div class="header">
       <div class="title">
@@ -58,12 +54,6 @@
     display: flex;
     overflow: hidden;
     border-bottom: 1px solid #F0F0F0;
-  }
-
-  .cat-border {
-    width: 3px;
-    flex-shrink: 0;
-    background: var(--cat-color);
   }
 
   .card-body {

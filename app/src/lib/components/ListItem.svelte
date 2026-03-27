@@ -1,7 +1,6 @@
 <script lang="ts">
   import { getProduct } from '$lib/data/products';
   import { getCheapestStore } from '$lib/utils/price';
-  import { getCategoryColor } from '$lib/data/categories';
   import StoreBadge from './StoreBadge.svelte';
 
   let { productId, checked, ontoggle, onremove }: {
@@ -17,12 +16,11 @@
   );
   let cheapestId = $derived(product ? getCheapestStore(product)[0] : '');
 
-  let catColor = $derived(product ? getCategoryColor(product.category) : '#BDBDBD');
+
 </script>
 
 {#if product}
-  <div class="list-item" class:checked style:--cat-color={catColor}>
-    <div class="cat-accent"></div>
+  <div class="list-item" class:checked>
     <label class="checkbox-target">
     <button class="checkbox" class:is-checked={checked} onclick={ontoggle}>
       {#if checked}
@@ -62,12 +60,6 @@
     border-bottom: 1px solid #F0F0F0;
   }
 
-  .cat-accent {
-    width: 3px;
-    align-self: stretch;
-    background: var(--cat-color);
-    flex-shrink: 0;
-  }
 
   .list-item.checked {
     opacity: 0.35;
