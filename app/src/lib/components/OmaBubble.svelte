@@ -13,39 +13,29 @@
   .bubble-wrapper {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 12px;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    animation: fadeSlideIn 0.4s ease-out;
   }
 
   .avatar {
-    font-size: 40px;
+    font-size: 24px;
     flex-shrink: 0;
+    line-height: 1;
+    padding-top: 2px;
   }
 
   .bubble {
-    background: var(--cream);
-    border: 2px solid var(--orange);
-    border-radius: var(--radius-md);
-    padding: 12px 16px;
-    position: relative;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .bubble::before {
-    content: '';
-    position: absolute;
-    left: -8px;
-    top: 12px;
-    width: 0;
-    height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-right: 8px solid var(--orange);
+    background: #FFF5E6;
+    border-left: 3px solid var(--orange);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
   }
 
   .oma-text {
     font-family: 'Caveat', cursive;
-    font-size: 20px;
+    font-weight: 700;
+    font-size: 18px;
     color: var(--dark);
     line-height: 1.3;
   }

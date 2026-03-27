@@ -13,38 +13,37 @@
   const maxAmount = Math.max(...weeklyData.map(w => w.amount));
 
   const settings = [
-    { icon: '\u{1F4CD}', label: 'Postcode', value: '1234 AB' },
-    { icon: '\u{1F3EA}', label: 'Favoriete winkel', value: 'Albert Heijn' },
-    { icon: '\u{1F514}', label: 'Meldingen', value: 'Aan' },
-    { icon: '\u{1F46A}', label: 'Huishouden', value: '2 personen' }
+    { label: 'Postcode', value: '1234 AB' },
+    { label: 'Favoriete winkel', value: 'Albert Heijn' },
+    { label: 'Meldingen', value: 'Aan' },
+    { label: 'Huishouden', value: '2 personen' }
   ];
 </script>
 
 <div class="page">
   <header class="top-bar">
-    <h1>&#x1F475; Mijn Oma</h1>
+    <h1>Mijn Oma</h1>
   </header>
 
-  <div class="oma-hero">
-    <span class="oma-big">&#x1F475;</span>
-    <OmaBubble text="Goed bezig, lieverd!" />
-  </div>
-
-  <div class="savings-counter">
+  <div class="savings-hero">
     <span class="savings-amount">&euro;847,30</span>
     <span class="savings-label">totaal bespaard</span>
   </div>
 
+  <OmaBubble text="Goed bezig, lieverd! Je bespaart steeds meer." />
+
   <div class="stats-row">
-    <div class="stat-card">
+    <div class="stat">
       <span class="stat-value">&euro;14,20</span>
       <span class="stat-label">Deze week</span>
     </div>
-    <div class="stat-card">
+    <div class="stat-divider"></div>
+    <div class="stat">
       <span class="stat-value">&euro;63,40</span>
       <span class="stat-label">Deze maand</span>
     </div>
-    <div class="stat-card">
+    <div class="stat-divider"></div>
+    <div class="stat">
       <span class="stat-value">&euro;11,20</span>
       <span class="stat-label">Gem./week</span>
     </div>
@@ -65,13 +64,15 @@
   </div>
 
   <div class="level-section">
-    <h3>&#x1F451; Koopjeskoning</h3>
+    <div class="level-header">
+      <h3>Koopjeskoning</h3>
+      <span class="level-pct">62%</span>
+    </div>
     <div class="progress-bar">
       <div class="progress-fill" style:width="62%"></div>
     </div>
     <div class="level-labels">
       <span>Beginner</span>
-      <span class="level-current">62%</span>
       <span>Expert</span>
     </div>
   </div>
@@ -79,78 +80,70 @@
   <div class="settings-section">
     <h3>Instellingen</h3>
     {#each settings as setting}
-      <div class="setting-row">
-        <span class="setting-icon">{setting.icon}</span>
+      <button class="setting-row">
         <span class="setting-label">{setting.label}</span>
         <span class="setting-value">{setting.value}</span>
-        <span class="setting-arrow">&#x203A;</span>
-      </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
     {/each}
   </div>
 </div>
 
 <style>
   .page {
-    padding: 16px;
-    padding-bottom: 80px;
+    padding: var(--space-4);
+    padding-bottom: 88px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--space-5);
+    overflow-x: hidden;
   }
 
   .top-bar {
-    padding: 4px 0;
+    padding: var(--space-1) 0;
   }
 
   .top-bar h1 {
     font-size: 22px;
   }
 
-  .oma-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .oma-big {
-    font-size: 80px;
-    line-height: 1;
-  }
-
-  .savings-counter {
+  .savings-hero {
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
+    padding: var(--space-6) 0 var(--space-2);
   }
 
   .savings-amount {
-    font-size: 42px;
+    font-size: 56px;
     font-weight: 700;
-    color: var(--green);
+    color: var(--green-dark);
+    letter-spacing: -0.03em;
+    line-height: 1;
   }
 
   .savings-label {
     font-size: 14px;
-    color: #888;
+    color: var(--gray-500);
+    font-weight: 500;
   }
 
   .stats-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    padding: var(--space-4) 0;
   }
 
-  .stat-card {
-    background: white;
-    border-radius: var(--radius-md);
-    padding: 14px 10px;
-    box-shadow: var(--shadow-sm);
+  .stat {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
   }
 
   .stat-value {
@@ -161,25 +154,32 @@
 
   .stat-label {
     font-size: 12px;
-    color: #888;
+    color: var(--gray-500);
+    font-weight: 500;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--gray-200);
   }
 
   .chart-section {
     background: white;
     border-radius: var(--radius-md);
-    padding: 16px;
-    box-shadow: var(--shadow-sm);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-xs);
   }
 
   .chart-section h3 {
-    margin-bottom: 12px;
+    margin-bottom: var(--space-4);
     font-size: 16px;
   }
 
   .chart {
     display: flex;
     align-items: flex-end;
-    gap: 8px;
+    gap: var(--space-2);
     height: 120px;
   }
 
@@ -190,13 +190,14 @@
     align-items: center;
     height: 100%;
     justify-content: flex-end;
-    gap: 4px;
+    gap: var(--space-1);
   }
 
   .bar {
     width: 100%;
-    background: var(--green);
-    border-radius: 6px 6px 0 0;
+    max-width: 32px;
+    background: linear-gradient(180deg, var(--green) 0%, #00A044 100%);
+    border-radius: 4px 4px 0 0;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -205,7 +206,7 @@
   }
 
   .bar-value {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     color: white;
     padding-top: 4px;
@@ -213,48 +214,56 @@
 
   .bar-label {
     font-size: 11px;
-    color: #888;
-    font-weight: 600;
+    color: var(--gray-500);
+    font-weight: 500;
   }
 
   .level-section {
     background: white;
     border-radius: var(--radius-md);
-    padding: 16px;
-    box-shadow: var(--shadow-sm);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-xs);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-3);
   }
 
-  .level-section h3 {
+  .level-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .level-header h3 {
     font-size: 16px;
   }
 
+  .level-pct {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--orange);
+  }
+
   .progress-bar {
-    height: 12px;
-    background: #eee;
-    border-radius: 999px;
+    height: 8px;
+    background: var(--gray-100);
+    border-radius: var(--radius-full);
     overflow: hidden;
   }
 
   .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #FF6200, #FF8A3D);
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     transition: width 0.5s ease;
   }
 
   .level-labels {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
-    color: #888;
-  }
-
-  .level-current {
-    font-weight: 700;
-    color: var(--orange);
+    font-size: 11px;
+    color: var(--gray-400);
+    font-weight: 500;
   }
 
   .settings-section {
@@ -265,37 +274,43 @@
 
   .settings-section h3 {
     font-size: 16px;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-2);
   }
 
   .setting-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-3);
     background: white;
-    padding: 14px 16px;
+    padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-xs);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+    text-align: left;
+    transition: background var(--transition-fast);
   }
 
-  .setting-icon {
-    font-size: 20px;
-    flex-shrink: 0;
+  .setting-row:hover {
+    background: var(--gray-50);
   }
 
   .setting-label {
     flex: 1;
     font-weight: 600;
     font-size: 14px;
+    color: var(--dark);
   }
 
   .setting-value {
     font-size: 13px;
-    color: #888;
+    color: var(--gray-500);
   }
 
-  .setting-arrow {
-    font-size: 20px;
-    color: #ccc;
+  .setting-row svg {
+    color: var(--gray-300);
+    flex-shrink: 0;
   }
 </style>

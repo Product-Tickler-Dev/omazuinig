@@ -21,9 +21,9 @@
 <style>
   .pills {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     overflow-x: auto;
-    padding: 8px 0;
+    padding: 4px 0;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -34,23 +34,25 @@
 
   .pill {
     flex-shrink: 0;
-    padding: 6px 16px;
-    border-radius: 999px;
-    border: 2px solid var(--orange);
-    background: white;
-    color: var(--dark);
-    font-size: 14px;
-    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--blue);
+    background: transparent;
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all var(--transition-fast);
+    text-transform: capitalize;
   }
 
   .pill.active {
-    background: var(--orange);
+    background: var(--blue);
     color: white;
+    border-color: var(--blue);
   }
 
   .pill:hover:not(.active) {
-    background: #fff3e0;
+    background: var(--blue-light);
   }
 </style>

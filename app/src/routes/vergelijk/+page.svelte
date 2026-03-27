@@ -20,15 +20,21 @@
 
 <div class="page">
   <header class="top-bar">
-    <h1>&#x1F50D; Vergelijk</h1>
+    <h1>Vergelijk</h1>
   </header>
 
-  <input
-    type="text"
-    class="search-input"
-    placeholder="Zoek een product..."
-    bind:value={searchQuery}
-  />
+  <div class="search-box">
+    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="M21 21l-4.35-4.35"/>
+    </svg>
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Zoek een product..."
+      bind:value={searchQuery}
+    />
+  </div>
 
   <CategoryPills
     {categories}
@@ -49,31 +55,46 @@
 
 <style>
   .page {
-    padding: 16px;
-    padding-bottom: 80px;
+    padding: var(--space-4);
+    padding-bottom: 88px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-3);
+    overflow-x: hidden;
   }
 
   .top-bar {
-    padding: 4px 0;
+    padding: var(--space-1) 0;
   }
 
   .top-bar h1 {
     font-size: 22px;
   }
 
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--gray-400);
+    pointer-events: none;
+  }
+
   .search-input {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #e0e0e0;
+    padding: var(--space-3) var(--space-4) var(--space-3) 42px;
+    border: 1.5px solid var(--gray-200);
     border-radius: var(--radius-md);
     font-size: 15px;
     font-family: inherit;
     background: white;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color var(--transition-fast);
+    color: var(--dark);
   }
 
   .search-input:focus {
@@ -83,6 +104,6 @@
   .product-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-3);
   }
 </style>

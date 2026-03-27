@@ -21,7 +21,7 @@
 
 <div class="page">
   <header class="top-bar">
-    <h1>&#x1F3F7;&#xFE0F; Aanbiedingen</h1>
+    <h1>Aanbiedingen</h1>
   </header>
 
   <div class="store-tabs">
@@ -44,10 +44,8 @@
 
   {#if activeFilter === 'alles'}
     <div class="toppers-section">
-      <div class="toppers-header">
-        <h3>Oma's Toppers</h3>
-      </div>
-      <OmaBubble text="Dit zijn Oma's toppers!" />
+      <h3 class="section-title">Oma's Toppers</h3>
+      <OmaBubble text="Dit zijn Oma's toppers deze week!" />
       <div class="toppers-list">
         {#each topDeals as deal}
           <DealCard {deal} />
@@ -56,6 +54,7 @@
     </div>
   {/if}
 
+  <h3 class="section-title">Alle deals</h3>
   <div class="deals-grid">
     {#each filteredDeals as deal}
       <DealCard {deal} />
@@ -65,15 +64,16 @@
 
 <style>
   .page {
-    padding: 16px;
-    padding-bottom: 80px;
+    padding: var(--space-4);
+    padding-bottom: 88px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
+    overflow-x: hidden;
   }
 
   .top-bar {
-    padding: 4px 0;
+    padding: var(--space-1) 0;
   }
 
   .top-bar h1 {
@@ -82,9 +82,9 @@
 
   .store-tabs {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     overflow-x: auto;
-    padding: 4px 0;
+    padding: 2px 0;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -95,16 +95,16 @@
 
   .tab {
     flex-shrink: 0;
-    padding: 8px 16px;
-    border-radius: 999px;
-    border: 2px solid #e0e0e0;
+    padding: 7px 16px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--gray-200);
     background: white;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
-    transition: all 0.2s;
-    color: var(--dark);
+    transition: all var(--transition-fast);
+    color: var(--gray-700);
   }
 
   .tab.active {
@@ -113,21 +113,32 @@
     border-color: var(--tab-color, var(--orange));
   }
 
+  .tab:hover:not(.active) {
+    border-color: var(--gray-300);
+    background: var(--gray-50);
+  }
+
+  .section-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+
   .toppers-section {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-3);
   }
 
   .toppers-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   .deals-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: var(--space-3);
   }
 </style>

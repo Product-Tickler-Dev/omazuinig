@@ -46,24 +46,29 @@
 
 <div class="page">
   <header class="top-bar">
-    <h1>&#x1F4CB; Boodschappenlijst</h1>
+    <h1>Boodschappenlijst</h1>
     {#if items.length > 0}
       <span class="count-badge">{items.length}</span>
     {/if}
   </header>
 
   <div class="search-wrapper">
-    <input
-      type="text"
-      class="search-input"
-      placeholder="Voeg product toe..."
-      bind:value={searchQuery}
-    />
+    <div class="search-box">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Voeg product toe..."
+        bind:value={searchQuery}
+      />
+    </div>
     {#if searchResults.length > 0}
       <div class="autocomplete">
         {#each searchResults as product}
           <button class="autocomplete-item" onclick={() => addItem(product.id)}>
-            <span class="ac-emoji">{product.image}</span>
             <span class="ac-name">{product.name}</span>
             <span class="ac-size">{product.size}</span>
           </button>
@@ -88,7 +93,6 @@
 
     <div class="advice-panel">
       <div class="advice-header">
-        <span class="advice-avatar">&#x1F475;</span>
         <strong>Oma's Advies</strong>
       </div>
       <div class="mode-toggle">
@@ -96,12 +100,12 @@
           class="mode-btn"
           class:active={adviceMode === 'single'}
           onclick={() => adviceMode = 'single'}
-        >&#x1F3EA; E&eacute;n winkel</button>
+        >E&eacute;n winkel</button>
         <button
           class="mode-btn"
           class:active={adviceMode === 'split'}
           onclick={() => adviceMode = 'split'}
-        >&#x1F4B0; Max besparing</button>
+        >Max besparing</button>
       </div>
       <div class="advice-text">
         {#if adviceMode === 'single'}
@@ -116,18 +120,19 @@
 
 <style>
   .page {
-    padding: 16px;
+    padding: var(--space-4);
     padding-bottom: 200px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
+    overflow-x: hidden;
   }
 
   .top-bar {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 4px 0;
+    gap: var(--space-3);
+    padding: var(--space-1) 0;
   }
 
   .top-bar h1 {
@@ -137,26 +142,40 @@
   .count-badge {
     background: var(--orange);
     color: white;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     padding: 2px 10px;
-    border-radius: 999px;
+    border-radius: var(--radius-full);
   }
 
   .search-wrapper {
     position: relative;
   }
 
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--gray-400);
+    pointer-events: none;
+  }
+
   .search-input {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #e0e0e0;
+    padding: var(--space-3) var(--space-4) var(--space-3) 42px;
+    border: 1.5px solid var(--gray-200);
     border-radius: var(--radius-md);
     font-size: 15px;
     font-family: inherit;
     background: white;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color var(--transition-fast);
+    color: var(--dark);
   }
 
   .search-input:focus {
@@ -170,48 +189,46 @@
     right: 0;
     background: white;
     border-radius: 0 0 var(--radius-md) var(--radius-md);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
     z-index: 10;
     overflow: hidden;
+    border: 1px solid var(--gray-200);
+    border-top: none;
   }
 
   .autocomplete-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--space-3);
     width: 100%;
-    padding: 10px 16px;
+    padding: var(--space-3) var(--space-4);
     border: none;
     background: none;
     cursor: pointer;
     font-family: inherit;
     font-size: 14px;
     text-align: left;
-    transition: background 0.15s;
+    transition: background var(--transition-fast);
   }
 
   .autocomplete-item:hover {
-    background: var(--cream);
-  }
-
-  .ac-emoji {
-    font-size: 22px;
+    background: var(--gray-50);
   }
 
   .ac-name {
-    font-weight: 700;
+    font-weight: 600;
     flex: 1;
   }
 
   .ac-size {
-    color: #888;
+    color: var(--gray-500);
     font-size: 12px;
   }
 
   .list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .advice-panel {
@@ -219,46 +236,47 @@
     bottom: 68px;
     background: white;
     border-radius: var(--radius-lg);
-    padding: 16px;
-    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-up);
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    border: 2px solid var(--orange);
+    gap: var(--space-3);
   }
 
   .advice-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 16px;
-  }
-
-  .advice-avatar {
-    font-size: 28px;
+    gap: var(--space-2);
+    font-size: 15px;
+    color: var(--dark);
   }
 
   .mode-toggle {
     display: flex;
-    gap: 8px;
+    gap: 0;
+    background: var(--gray-100);
+    border-radius: var(--radius-sm);
+    padding: 3px;
   }
 
   .mode-btn {
     flex: 1;
-    padding: 8px 12px;
-    border: 2px solid var(--orange);
-    border-radius: var(--radius-sm);
-    background: white;
+    padding: 7px var(--space-3);
+    border: none;
+    border-radius: var(--radius-xs);
+    background: transparent;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all var(--transition-fast);
+    color: var(--gray-600);
   }
 
   .mode-btn.active {
-    background: var(--orange);
-    color: white;
+    background: white;
+    color: var(--orange);
+    box-shadow: var(--shadow-xs);
   }
 
   .advice-text {

@@ -3,7 +3,7 @@
 </script>
 
 {#each $toasts as toast (toast.id)}
-  <div class="toast" class:info={toast.type === 'info'}>
+  <div class="toast">
     {toast.text}
   </div>
 {/each}
@@ -11,22 +11,18 @@
 <style>
   .toast {
     position: fixed;
-    top: 16px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: white;
-    color: var(--dark);
-    padding: 12px 20px;
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-lg);
-    border-left: 4px solid var(--green);
+    background: var(--dark);
+    color: white;
+    padding: 10px 24px;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-md);
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
     z-index: 200;
     animation: slideDown 0.3s ease-out;
-  }
-
-  .toast.info {
-    border-left-color: var(--blue);
+    white-space: nowrap;
   }
 </style>

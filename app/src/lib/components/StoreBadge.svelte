@@ -10,14 +10,14 @@
   } = $props();
 
   let store = $derived(getStore(storeId));
-  let bgColor = $derived(cheapest ? 'var(--green)' : duur ? 'var(--red)' : store?.color ?? '#888');
 </script>
 
 <span
   class="badge"
   class:cheapest
   class:duur
-  style:background-color={bgColor}
+  class:default={!cheapest && !duur}
+  style:--store-color={store?.color ?? '#888'}
 >
   <span class="name">{store?.short ?? storeId}</span>
   <span class="price" class:strikethrough={duur}>{formatPrice(price)}</span>
@@ -27,24 +27,44 @@
   .badge {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 8px;
-    border-radius: 999px;
+    gap: 3px;
+    padding: 3px 7px;
+    border-radius: var(--radius-full);
     font-size: 12px;
-    font-weight: 700;
-    color: white;
+    font-weight: 600;
     white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .badge.cheapest {
+    background: var(--green-light);
+    color: var(--green-dark);
   }
 
   .badge.duur {
-    opacity: 0.7;
+    background: var(--gray-100);
+    color: var(--gray-500);
+  }
+
+  .badge.default {
+    background: var(--gray-100);
+    color: var(--store-color);
   }
 
   .name {
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .price {
+    font-weight: 700;
+    font-size: 12px;
   }
 
   .strikethrough {
     text-decoration: line-through;
+    color: var(--gray-400);
   }
 </style>

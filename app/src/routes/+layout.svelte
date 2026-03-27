@@ -18,5 +18,6 @@
     margin: 0 auto;
     min-height: 100vh;
     position: relative;
+    overflow-x: hidden;
   }
 </style>
