@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oma Zuinig — Bespaar op Boodschappen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Caveat&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #FF6200;
+      --green: #00C853;
+      --blue: #0052CC;
+      --cream: #FFF9F0;
+      --red: #E6392E;
+      --dark: #1C1C1C;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+    }
+
+    #app {
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Screens */
+    .screen {
+      display: none;
+      padding: 16px 16px 80px 16px;
+    }
+    .screen.active {
+      display: block;
+    }
+
+    /* Top bar */
+    .top-bar {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 4px;
+      font-size: 18px;
+    }
+    .logo {
+      color: var(--orange);
+      font-weight: 700;
+      font-size: 22px;
+    }
+    .screen-title {
+      font-weight: 700;
+    }
+    .item-count {
+      background: var(--orange);
+      color: white;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 12px;
+      margin-left: auto;
+    }
+
+    /* Bottom nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: 60px;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 10px;
+      color: #888;
+      cursor: pointer;
+      padding: 4px 0;
+      position: relative;
+    }
+    .nav-btn.active {
+      color: var(--orange);
+    }
+    .nav-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    /* Store badge */
+    .store-badge {
+      display: inline-flex;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      margin: 2px;
+    }
+    .store-badge.cheapest {
+      background: #00C853;
+      font-size: 12px;
+    }
+    .store-badge.duur {
+      background: var(--red);
+      text-decoration: line-through;
+    }
+
+    /* Deal card */
+    .deal-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 16px;
+      position: relative;
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+    .deal-card__emoji {
+      font-size: 40px;
+      text-align: center;
+    }
+    .deal-card__name {
+      font-weight: 700;
+      margin: 8px 0 2px;
+    }
+    .deal-card__size {
+      font-size: 12px;
+      color: #888;
+    }
+    .price-old {
+      text-decoration: line-through;
+      color: var(--red);
+      font-size: 13px;
+    }
+    .price-new {
+      color: var(--green);
+      font-weight: 700;
+      font-size: 18px;
+      margin-left: 8px;
+    }
+    .discount-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--orange);
+      color: white;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    /* Oma speech bubble */
+    .oma-bubble {
+      background: white;
+      border: 2px solid var(--orange);
+      border-radius: 16px 16px 16px 4px;
+      padding: 12px 16px;
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      color: var(--dark);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 300px;
+      margin: 8px 0;
+    }
+    .oma-avatar {
+      font-size: 28px;
+    }
+
+    /* Hamster badge */
+    .hamster-badge {
+      background: var(--orange);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+
+    /* Beste Keuze stamp */
+    .beste-keuze {
+      border: 2px solid var(--green);
+      color: var(--green);
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Category pills */
+    .category-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 8px 0;
+      margin-bottom: 12px;
+    }
+    .category-pill {
+      border: 1.5px solid var(--blue);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      background: transparent;
+      color: var(--blue);
+    }
+    .category-pill.active {
+      background: var(--blue);
+      color: white;
+    }
+
+    /* Product card */
+    .product-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: white;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .product-card__emoji {
+      font-size: 32px;
+    }
+    .product-card__name {
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .product-card__meta {
+      font-size: 12px;
+      color: #888;
+    }
+    .product-card__badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .product-card__action {
+      margin-left: auto;
+    }
+    .btn-add {
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Animations */
+    @keyframes slideUp {
+      from { transform: translateY(16px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-in {
+      animation: slideUp 0.2s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <section id="screen-home" class="screen active">
+      <div class="top-bar">
+        <span class="logo">👵 Oma Zuinig</span>
+      </div>
+    </section>
+
+    <section id="screen-lijst" class="screen">
+      <div class="top-bar">
+        <span class="screen-title">📋 Boodschappenlijst</span>
+      </div>
+    </section>
+
+    <section id="screen-vergelijk" class="screen">
+      <div class="top-bar">
+        <span class="screen-title">🔍 Vergelijk</span>
+      </div>
+    </section>
+
+    <section id="screen-deals" class="screen">
+      <div class="top-bar">
+        <span class="screen-title">🏷️ Deals</span>
+      </div>
+    </section>
+
+    <section id="screen-oma" class="screen">
+      <div class="top-bar">
+        <span class="screen-title">👵 Mijn Oma</span>
+      </div>
+    </section>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="navigate('home')" data-screen="home">
+        <span style="font-size:20px">🏠</span>
+        Home
+      </button>
+      <button class="nav-btn" onclick="navigate('lijst')" data-screen="lijst">
+        <span style="font-size:20px">📋</span>
+        Lijst
+      </button>
+      <button class="nav-btn" onclick="navigate('vergelijk')" data-screen="vergelijk">
+        <span style="font-size:20px">🔍</span>
+        Vergelijk
+      </button>
+      <button class="nav-btn" onclick="navigate('deals')" data-screen="deals">
+        <span style="font-size:20px">🏷️</span>
+        Deals
+      </button>
+      <button class="nav-btn" onclick="navigate('oma')" data-screen="oma">
+        <span style="font-size:20px">👵</span>
+        Mijn Oma
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    // ==================== NAVIGATION ====================
+    function navigate(screenName) {
+      // Hide all screens
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      // Show target screen
+      const target = document.getElementById('screen-' + screenName);
+      if (target) target.classList.add('active');
+      // Update nav buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.screen === screenName) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    // ==================== MOCK DATA ====================
+    const STORES = [
+      { id: 'ah', name: 'Albert Heijn', short: 'AH', color: '#00A0E2' },
+      { id: 'jumbo', name: 'Jumbo', short: 'Jumbo', color: '#FFD700' },
+      { id: 'lidl', name: 'Lidl', short: 'Lidl', color: '#0050AA' },
+      { id: 'aldi', name: 'Aldi', short: 'Aldi', color: '#00599C' },
+      { id: 'plus', name: 'Plus', short: 'Plus', color: '#E3000B' },
+      { id: 'dirk', name: 'Dirk', short: 'Dirk', color: '#E31937' }
+    ];
+
+    const PRODUCTS = [
+      { id: 1, name: 'Halfvolle melk', brand: 'Huismerk', size: '1L', category: 'zuivel', img: '🥛', prices: { ah: 1.29, jumbo: 1.25, lidl: 0.99, aldi: 0.95, plus: 1.19, dirk: 1.09 } },
+      { id: 2, name: 'Gouda kaas jong belegen', brand: 'Huismerk', size: '500g', category: 'zuivel', img: '🧀', prices: { ah: 4.99, jumbo: 4.79, lidl: 3.99, aldi: 3.89, plus: 4.49, dirk: 4.29 } },
+      { id: 3, name: 'Volkoren brood', brand: 'Huismerk', size: '800g', category: 'brood', img: '🍞', prices: { ah: 1.89, jumbo: 1.79, lidl: 1.49, aldi: 1.39, plus: 1.69, dirk: 1.59 } },
+      { id: 4, name: 'Scharreleieren', brand: 'Huismerk', size: '10 stuks', category: 'zuivel', img: '🥚', prices: { ah: 3.29, jumbo: 2.99, lidl: 2.69, aldi: 2.59, plus: 2.89, dirk: 2.79 } },
+      { id: 5, name: 'Heineken Pilsener', brand: 'Heineken', size: '6-pack', category: 'dranken', img: '🍺', prices: { ah: 5.99, jumbo: 5.49, lidl: 5.29, aldi: 5.19, plus: 5.69, dirk: 5.39 } },
+      { id: 6, name: 'Aroma Rood koffie', brand: 'Douwe Egberts', size: '500g', category: 'dranken', img: '☕', prices: { ah: 6.99, jumbo: 6.49, lidl: 5.99, aldi: 5.79, plus: 6.29, dirk: 6.19 } },
+      { id: 7, name: 'Pindakaas', brand: 'Calvé', size: '650g', category: 'brood', img: '🥜', prices: { ah: 4.49, jumbo: 3.99, lidl: 3.79, aldi: 3.69, plus: 4.19, dirk: 3.89 } },
+      { id: 8, name: 'Paprika rood', brand: '', size: 'per stuk', category: 'groente', img: '🫑', prices: { ah: 1.19, jumbo: 0.99, lidl: 0.89, aldi: 0.85, plus: 0.99, dirk: 0.95 } },
+      { id: 9, name: 'Melkchocolade hagelslag', brand: 'De Ruijter', size: '400g', category: 'brood', img: '🍫', prices: { ah: 2.99, jumbo: 2.79, lidl: 2.49, aldi: 2.39, plus: 2.69, dirk: 2.59 } },
+      { id: 10, name: 'Karnemelk', brand: 'Huismerk', size: '1L', category: 'zuivel', img: '🥛', prices: { ah: 1.09, jumbo: 0.99, lidl: 0.89, aldi: 0.85, plus: 0.99, dirk: 0.95 } }
+    ];
+
+    const DEALS = [
+      { productId: 5, store: 'ah', oldPrice: 5.99, newPrice: 3.99, discount: 33 },
+      { productId: 6, store: 'jumbo', oldPrice: 6.49, newPrice: 4.49, discount: 31 },
+      { productId: 7, store: 'lidl', oldPrice: 3.79, newPrice: 1.99, discount: 47 },
+      { productId: 2, store: 'aldi', oldPrice: 3.89, newPrice: 2.49, discount: 36 },
+      { productId: 9, store: 'dirk', oldPrice: 2.59, newPrice: 1.49, discount: 42 },
+      { productId: 4, store: 'plus', oldPrice: 2.89, newPrice: 1.79, discount: 38 },
+      { productId: 3, store: 'ah', oldPrice: 1.89, newPrice: 0.99, discount: 48 },
+      { productId: 8, store: 'jumbo', oldPrice: 0.99, newPrice: 0.59, discount: 40 }
+    ];
+
+    let shoppingList = [
+      { productId: 1, checked: false },
+      { productId: 2, checked: false },
+      { productId: 4, checked: false },
+      { productId: 7, checked: false },
+      { productId: 6, checked: true }
+    ];
+    let optimizeMode = 'single';
+
+    // ==================== HELPER FUNCTIONS ====================
+    function getProduct(id) { return PRODUCTS.find(p => p.id === id); }
+    function getStore(id) { return STORES.find(s => s.id === id); }
+    function getCheapestStore(product) { return Object.entries(product.prices).sort((a, b) => a[1] - b[1])[0]; }
+    function getMostExpensiveStore(product) { return Object.entries(product.prices).sort((a, b) => b[1] - a[1])[0]; }
+    function formatPrice(n) { return '€' + n.toFixed(2).replace('.', ','); }
+
+    // ==================== RENDER FUNCTIONS ====================
+    function renderStoreBadge(storeId, price, cheapest, duur) {
+      const store = getStore(storeId);
+      const cls = 'store-badge' + (cheapest ? ' cheapest' : '') + (duur ? ' duur' : '');
+      const bg = cheapest ? 'var(--green)' : duur ? 'var(--red)' : store.color;
+      return `<span class="${cls}" style="background:${bg}">${store.short} ${formatPrice(price)}</span>`;
+    }
+
+    function renderOmaBubble(text) {
+      return `<div class="oma-bubble animate-in"><span class="oma-avatar">👵</span> ${text}</div>`;
+    }
+
+    function renderDealCard(deal) {
+      const product = getProduct(deal.productId);
+      const store = getStore(deal.store);
+      const isHamster = deal.discount >= 40;
+      return `<div class="deal-card animate-in">${isHamster ? '<span class="hamster-badge">Hamsteralert!</span>' : ''}<div class="deal-card__emoji">${product.img}</div><div class="deal-card__store" style="color:${store.color};font-weight:700;font-size:12px">${store.short}</div><div class="deal-card__name">${product.name}</div><div class="deal-card__size">${product.brand ? product.brand + ' · ' : ''}${product.size}</div><div class="deal-card__prices"><span class="price-old">${formatPrice(deal.oldPrice)}</span><span class="price-new">${formatPrice(deal.newPrice)}</span></div><span class="discount-badge">-${deal.discount}%</span></div>`;
+    }
+
+    function renderProductCard(product) {
+      const [cheapestId] = getCheapestStore(product);
+      const [duurId] = getMostExpensiveStore(product);
+      const badges = Object.entries(product.prices).sort((a, b) => a[1] - b[1]).map(([sid, price]) => renderStoreBadge(sid, price, sid === cheapestId, sid === duurId)).join('');
+      return `<div class="product-card animate-in"><div class="product-card__emoji">${product.img}</div><div class="product-card__right"><div class="product-card__name">${product.name} <span class="beste-keuze">Oma's Keuze</span></div><div class="product-card__meta">${product.brand ? product.brand + ' · ' : ''}${product.size}</div><div class="product-card__badges">${badges}</div></div><div class="product-card__action"><button class="btn-add" onclick="addToList(${product.id})">+ Lijst</button></div></div>`;
+    }
+
+    function addToList(productId) {
+      if (!shoppingList.find(item => item.productId === productId)) {
+        shoppingList.push({ productId: productId, checked: false });
+      }
+    }
+  </script>
+</body>
+</html>
