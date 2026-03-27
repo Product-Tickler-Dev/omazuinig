@@ -1,14 +1,16 @@
 <script lang="ts">
-  let { text }: { text: string } = $props();
+  let { text, mood = 'happy' }: { text: string; mood?: 'happy' | 'excited' | 'thinking' | 'neutral' } = $props();
 </script>
 
 <div class="bubble-wrapper">
-  <div class="avatar-ring">
+  <div class="avatar-ring" class:excited={mood === 'excited'}>
     <img src="/oma-avatar.png" alt="Oma Zuinig" class="avatar-img" />
   </div>
   <div class="bubble">
     <div class="bubble-tail"></div>
-    <p class="oma-text">{text}</p>
+    <p class="oma-text">
+      {text}{#if mood === 'thinking'}<span class="thinking-dots"><span>.</span><span>.</span><span>.</span></span>{/if}
+    </p>
   </div>
 </div>
 
@@ -29,6 +31,17 @@
     padding: 2px;
     background: linear-gradient(135deg, var(--orange) 0%, var(--orange-warm, #FF8A3D) 100%);
     box-shadow: 0 4px 12px rgba(255, 98, 0, 0.2);
+  }
+
+  .avatar-ring.excited {
+    animation: avatarBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes avatarBounce {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.15); }
+    70% { transform: scale(0.95); }
+    100% { transform: scale(1); }
   }
 
   .avatar-img {
@@ -76,5 +89,23 @@
     font-size: 21px;
     color: var(--dark);
     line-height: 1.3;
+  }
+
+  .thinking-dots span {
+    animation: dotPulse 1.4s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  .thinking-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .thinking-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes dotPulse {
+    0%, 60%, 100% { opacity: 0.3; }
+    30% { opacity: 1; }
   }
 </style>

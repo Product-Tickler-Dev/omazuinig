@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import OmaBubble from '$lib/components/OmaBubble.svelte';
 
   const weeklyData = [
@@ -11,6 +12,9 @@
   ];
 
   const maxAmount = Math.max(...weeklyData.map(w => w.amount));
+  const weeklyAvg = weeklyData.reduce((sum, w) => sum + w.amount, 0) / weeklyData.length;
+  const thisWeek = 14.20;
+  const aboveAverage = thisWeek > weeklyAvg;
 
   const levelSteps = [
     { name: 'Beginner', pct: 0 },
@@ -25,6 +29,39 @@
     { label: 'Meldingen', value: 'Aan' },
     { label: 'Huishouden', value: '2 personen' }
   ];
+
+  let displayAmount = $state(0);
+  let shimmerDone = $state(false);
+
+  onMount(() => {
+    const target = 847.30;
+    const duration = 1500;
+    const start = performance.now();
+
+    function easeOut(t: number): number {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      displayAmount = target * easeOut(progress);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        displayAmount = target;
+      }
+    }
+
+    requestAnimationFrame(tick);
+
+    // Trigger shimmer after bar animates
+    setTimeout(() => { shimmerDone = true; }, 1200);
+  });
+
+  let formattedAmount = $derived(
+    '\u20AC' + displayAmount.toFixed(2).replace('.', ',')
+  );
 </script>
 
 <div class="page">
@@ -36,15 +73,15 @@
     <div class="avatar-glow">
       <img src="/oma-avatar.png" alt="Oma Zuinig" class="profile-avatar" />
     </div>
-    <span class="savings-amount">&euro;847,30</span>
+    <span class="savings-amount">{formattedAmount}</span>
     <span class="savings-label">totaal bespaard</span>
   </div>
 
-  <OmaBubble text="Goed bezig, lieverd! Je bespaart steeds meer." />
+  <OmaBubble text="Goed bezig, lieverd! Je bespaart steeds meer." mood="happy" />
 
   <div class="stats-row">
-    <div class="stat">
-      <span class="stat-value">&euro;14,20</span>
+    <div class="stat stat-highlight">
+      <span class="stat-value stat-value-week">&euro;14,20 {#if aboveAverage}<span class="arrow-up">&#9650;</span>{/if}</span>
       <span class="stat-label">Deze week</span>
     </div>
     <div class="stat-divider"></div>
@@ -83,7 +120,10 @@
       <span class="level-pct">62%</span>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" style:--progress="0.62"></div>
+      <div class="progress-fill" class:shimmer={shimmerDone} style:--progress="0.62"></div>
+      <div class="oma-on-bar" style:left="62%">
+        <img src="/oma-avatar.png" alt="" class="bar-oma" />
+      </div>
       <div class="level-dots">
         {#each levelSteps as step}
           <div class="level-dot" style:left="{step.pct}%" class:reached={62 >= step.pct}>
@@ -97,6 +137,7 @@
         <span class="level-name" class:current={step.name === 'Koopjeskoning'}>{step.name}</span>
       {/each}
     </div>
+    <p class="level-motivation">Nog &euro;153 tot Expert!</p>
   </div>
 
   <div class="settings-section">
@@ -164,6 +205,7 @@
     color: var(--green-dark);
     letter-spacing: -0.03em;
     line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
 
   .savings-label {
@@ -192,6 +234,21 @@
     font-weight: 700;
     color: var(--dark);
     letter-spacing: -0.01em;
+  }
+
+  .stat-value-week {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--green-dark);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .arrow-up {
+    font-size: 14px;
+    color: var(--green);
+    line-height: 1;
   }
 
   .stat-label {
@@ -315,6 +372,42 @@
     transform-origin: left;
     transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-shadow: 0 2px 8px rgba(255, 98, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill.shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+    animation: shimmerSweep 1s ease-out forwards;
+  }
+
+  @keyframes shimmerSweep {
+    from { left: -100%; }
+    to { left: 200%; }
+  }
+
+  .oma-on-bar {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    animation: fadeIn 0.5s ease-out 0.8s both;
+  }
+
+  .bar-oma {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    display: block;
   }
 
   .level-dots {
@@ -361,6 +454,13 @@
   .level-name.current {
     color: var(--orange);
     font-weight: 700;
+  }
+
+  .level-motivation {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--orange);
+    text-align: center;
   }
 
   .settings-section {

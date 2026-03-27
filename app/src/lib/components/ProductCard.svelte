@@ -15,7 +15,12 @@
 
   function addToList() {
     shoppingList.add(product.id);
-    toasts.show(`${product.name} toegevoegd!`);
+    const savings = expensive[1] - cheapest[1];
+    if (savings > 0) {
+      toasts.celebrate(`Toegevoegd!`, savings);
+    } else {
+      toasts.show(`${product.name} toegevoegd!`);
+    }
   }
 </script>
 

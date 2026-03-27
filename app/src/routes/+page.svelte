@@ -58,17 +58,19 @@
     </button>
   </div>
 
-  <div class="section-header">
-    <h2 class="section-title">Aanbiedingen</h2>
-    <a href="/deals" class="section-link">Bekijk alles</a>
-  </div>
+  <div class="deals-accent">
+    <div class="section-header">
+      <h2 class="section-title">Aanbiedingen</h2>
+      <a href="/deals" class="section-link">Bekijk alles</a>
+    </div>
 
-  <div class="deals-carousel">
-    {#each topDeals as deal}
-      <div class="deal-slide">
-        <DealCard {deal} />
-      </div>
-    {/each}
+    <div class="deals-carousel">
+      {#each topDeals as deal}
+        <div class="deal-slide">
+          <DealCard {deal} />
+        </div>
+      {/each}
+    </div>
   </div>
 
   <div class="section-header">
@@ -249,6 +251,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: iconPulse 3s ease-in-out infinite;
+    transition: transform 0.2s ease;
+  }
+
+  .action-btn:hover .action-icon-wrap {
+    transform: rotate(5deg);
+  }
+
+  @keyframes iconPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.03); }
+    50% { box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.03); }
   }
 
   .action-label {
@@ -279,6 +292,15 @@
     text-decoration: underline;
   }
 
+  .deals-accent {
+    background: linear-gradient(180deg, transparent 0%, #FFF5EE 20%, #FFF5EE 80%, transparent 100%);
+    margin: 0 calc(-1 * var(--space-5));
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
   .deals-carousel {
     display: flex;
     gap: var(--space-3);
@@ -299,7 +321,7 @@
     top: 0;
     flex-shrink: 0;
     width: 40px;
-    background: linear-gradient(to left, #FAFAFA, transparent);
+    background: linear-gradient(to left, #FFF5EE, transparent);
     pointer-events: none;
   }
 

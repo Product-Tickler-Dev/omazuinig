@@ -52,7 +52,7 @@
         <div class="toppers-header">
           <h2 class="toppers-title">Oma's Toppers</h2>
         </div>
-        <OmaBubble text="Dit zijn Oma's toppers deze week!" />
+        <OmaBubble text="Dit zijn Oma's toppers deze week!" mood="excited" />
         <div class="toppers-list">
           {#each topDeals as deal}
             <DealCard {deal} />

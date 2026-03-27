@@ -47,7 +47,9 @@
     flex-direction: column;
     min-height: 140px;
     overflow: hidden;
-    transition: border-color var(--transition-fast);
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), border-color var(--transition-fast);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .deal-card:hover {
@@ -55,7 +57,17 @@
   }
 
   .deal-card:active {
-    opacity: 0.9;
+    transform: scale(0.97);
+  }
+
+  .deal-card:active .new-price {
+    animation: pricePulse 0.3s ease-out;
+  }
+
+  @keyframes pricePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+    100% { transform: scale(1); }
   }
 
   .card-body {
@@ -92,14 +104,6 @@
     display: flex;
     align-items: flex-start;
     gap: var(--space-2);
-  }
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 7px;
   }
 
   .product-text {

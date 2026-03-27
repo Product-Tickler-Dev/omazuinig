@@ -2,7 +2,7 @@
   import { toasts } from '$lib/stores/toast';
 </script>
 
-{#each $toasts as toast (toast.id)}
+{#each $toasts.filter(t => t.type !== 'celebrate') as toast (toast.id)}
   <div class="toast" role="status" aria-live="polite">
     <img src="/oma-avatar.png" alt="" class="toast-avatar" />
     <span class="toast-text">{toast.text}</span>
