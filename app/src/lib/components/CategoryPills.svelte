@@ -6,11 +6,12 @@
   } = $props();
 </script>
 
-<div class="pills">
+<div class="pills" role="group" aria-label="Filter op categorie">
   {#each categories as cat}
     <button
       class="pill"
       class:active={cat === active}
+      aria-pressed={cat === active}
       onclick={() => onselect(cat)}
     >
       {cat}
@@ -34,7 +35,7 @@
 
   .pill {
     flex-shrink: 0;
-    padding: 8px 18px;
+    padding: 12px 18px;
     border-radius: var(--radius-full);
     border: 2px solid var(--blue);
     background: transparent;

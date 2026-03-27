@@ -10,12 +10,13 @@
   ];
 </script>
 
-<nav class="bottom-nav">
+<nav class="bottom-nav" aria-label="Hoofdnavigatie">
   {#each links as link}
     <a
       href={link.href}
       class="nav-link"
       class:active={$page.url.pathname === link.href}
+      aria-current={$page.url.pathname === link.href ? 'page' : undefined}
     >
       <span class="icon-wrap" class:icon-active={$page.url.pathname === link.href}>
         {#if link.icon === 'home'}
@@ -98,7 +99,7 @@
     align-items: center;
     justify-content: center;
     width: 40px;
-    height: 32px;
+    height: 44px;
     border-radius: var(--radius-full);
     transition: all var(--transition-fast);
   }

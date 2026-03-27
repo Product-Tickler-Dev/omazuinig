@@ -3,20 +3,14 @@
   import { getProduct } from '$lib/data/products';
   import { getStore } from '$lib/data/stores';
   import { formatPrice } from '$lib/utils/price';
+  import { getCategoryColor } from '$lib/data/categories';
 
   let { deal }: { deal: Deal } = $props();
 
   let product = $derived(getProduct(deal.productId));
   let store = $derived(getStore(deal.store));
 
-  const categoryColors: Record<string, string> = {
-    zuivel: '#4FC3F7',
-    brood: '#FFB74D',
-    groente: '#81C784',
-    dranken: '#BA68C8'
-  };
-
-  let dotColor = $derived(product ? categoryColors[product.category] ?? '#BDBDBD' : '#BDBDBD');
+  let dotColor = $derived(product ? getCategoryColor(product.category) : '#BDBDBD');
 </script>
 
 {#if product && store}

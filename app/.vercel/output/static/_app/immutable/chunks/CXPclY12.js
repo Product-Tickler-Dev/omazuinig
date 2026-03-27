@@ -1,0 +1,1 @@
+import{w as n}from"./C0gaLH0O.js";function u(){const{subscribe:o,update:s}=n([]);let r=0;return{subscribe:o,show:(c,i="success")=>{const e=r++;s(t=>[...t,{id:e,text:c,type:i}]),setTimeout(()=>{s(t=>t.filter(a=>a.id!==e))},2500)}}}const b=u();export{b as t};

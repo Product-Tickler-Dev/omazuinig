@@ -13,7 +13,7 @@
 <div class="page">
   <header class="top-bar">
     <img src="/oma-avatar.png" alt="Oma" class="top-avatar" />
-    <h1 class="logo">Oma Zuinig</h1>
+    <span class="logo">Oma Zuinig</span>
   </header>
 
   <div class="hero">
@@ -60,7 +60,7 @@
   </div>
 
   <div class="section-header">
-    <h3 class="section-title">Aanbiedingen</h3>
+    <h2 class="section-title">Aanbiedingen</h2>
     <a href="/deals" class="section-link">Bekijk alles</a>
   </div>
 
@@ -73,7 +73,7 @@
   </div>
 
   <div class="section-header">
-    <h3 class="section-title">Populaire producten</h3>
+    <h2 class="section-title">Populaire producten</h2>
     <a href="/vergelijk" class="section-link">Meer</a>
   </div>
 
@@ -121,7 +121,7 @@
   }
 
   .hero {
-    background: linear-gradient(135deg, #FF6200 0%, #FF8A3D 60%, #FFB06B 100%);
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-warm) 60%, #FFB06B 100%);
     color: white;
     border-radius: var(--radius-xl);
     padding: var(--space-6);
@@ -304,6 +304,18 @@
     margin: 0 calc(-1 * var(--space-5));
     padding-left: var(--space-5);
     padding-right: var(--space-5);
+    position: relative;
+  }
+
+  .deals-carousel::after {
+    content: '';
+    position: sticky;
+    right: 0;
+    top: 0;
+    flex-shrink: 0;
+    width: 40px;
+    background: linear-gradient(to left, var(--cream), transparent);
+    pointer-events: none;
   }
 
   .deals-carousel::-webkit-scrollbar {

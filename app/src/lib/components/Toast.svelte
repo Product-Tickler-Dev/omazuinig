@@ -3,7 +3,7 @@
 </script>
 
 {#each $toasts as toast (toast.id)}
-  <div class="toast">
+  <div class="toast" role="status" aria-live="polite">
     <img src="/oma-avatar.png" alt="" class="toast-avatar" />
     <span class="toast-text">{toast.text}</span>
   </div>

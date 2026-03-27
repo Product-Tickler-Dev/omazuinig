@@ -60,7 +60,7 @@
   </div>
 
   <div class="chart-section">
-    <h3>Besparingen per week</h3>
+    <h2 class="section-heading">Besparingen per week</h2>
     <div class="chart">
       {#each weeklyData as week, i}
         <div class="bar-wrapper">
@@ -79,11 +79,11 @@
 
   <div class="level-section">
     <div class="level-header">
-      <h3>Koopjeskoning</h3>
+      <h2 class="section-heading">Koopjeskoning</h2>
       <span class="level-pct">62%</span>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" style:width="62%"></div>
+      <div class="progress-fill" style:--progress="0.62"></div>
       <div class="level-dots">
         {#each levelSteps as step}
           <div class="level-dot" style:left="{step.pct}%" class:reached={62 >= step.pct}>
@@ -100,7 +100,7 @@
   </div>
 
   <div class="settings-section">
-    <h3>Instellingen</h3>
+    <h2 class="section-heading">Instellingen</h2>
     {#each settings as setting}
       <button class="setting-row">
         <span class="setting-label">{setting.label}</span>
@@ -146,7 +146,7 @@
     border-radius: 50%;
     padding: 3px;
     background: linear-gradient(135deg, var(--orange) 0%, var(--orange-warm, #FF8A3D) 100%);
-    box-shadow: 0 8px 32px rgba(255, 98, 0, 0.25), 0 0 0 8px rgba(255, 98, 0, 0.06);
+    box-shadow: var(--shadow-orange), 0 0 0 8px rgba(255, 98, 0, 0.06);
     margin-bottom: var(--space-2);
   }
 
@@ -213,9 +213,12 @@
     box-shadow: var(--shadow-sm);
   }
 
-  .chart-section h3 {
-    margin-bottom: var(--space-5);
+  .section-heading {
     font-size: 17px;
+  }
+
+  .chart-section .section-heading {
+    margin-bottom: var(--space-5);
   }
 
   .chart {
@@ -287,7 +290,7 @@
     justify-content: space-between;
   }
 
-  .level-header h3 {
+  .level-header .section-heading {
     font-size: 17px;
   }
 
@@ -307,9 +310,12 @@
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #FF6200, #FF8A3D, #FFB06B);
+    width: 100%;
+    background: linear-gradient(90deg, var(--orange), var(--orange-warm), #FFB06B);
     border-radius: var(--radius-full);
-    transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: scaleX(var(--progress));
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-shadow: 0 2px 8px rgba(255, 98, 0, 0.3);
   }
 
@@ -365,7 +371,7 @@
     gap: 2px;
   }
 
-  .settings-section h3 {
+  .settings-section .section-heading {
     font-size: 17px;
     margin-bottom: var(--space-2);
   }

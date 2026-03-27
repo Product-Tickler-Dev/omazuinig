@@ -24,16 +24,20 @@
     <h1>Aanbiedingen</h1>
   </header>
 
-  <div class="store-tabs">
+  <div class="store-tabs" role="tablist" aria-label="Filter op winkel">
     <button
       class="tab"
       class:active={activeFilter === 'alles'}
+      role="tab"
+      aria-selected={activeFilter === 'alles'}
       onclick={() => activeFilter = 'alles'}
     >Alles</button>
     {#each STORES as store}
       <button
         class="tab"
         class:active={activeFilter === store.id}
+        role="tab"
+        aria-selected={activeFilter === store.id}
         style:--tab-color={store.color}
         onclick={() => activeFilter = store.id}
       >
@@ -46,7 +50,7 @@
     <div class="toppers-section">
       <div class="toppers-bg">
         <div class="toppers-header">
-          <h3 class="toppers-title">Oma's Toppers</h3>
+          <h2 class="toppers-title">Oma's Toppers</h2>
         </div>
         <OmaBubble text="Dit zijn Oma's toppers deze week!" />
         <div class="toppers-list">
@@ -59,7 +63,7 @@
   {/if}
 
   <div class="section-header">
-    <h3 class="section-title">Alle deals</h3>
+    <h2 class="section-title">Alle deals</h2>
     <span class="deal-count">{filteredDeals.length} deals</span>
   </div>
   <div class="deals-grid">
@@ -102,7 +106,7 @@
 
   .tab {
     flex-shrink: 0;
-    padding: 8px 18px;
+    padding: 12px 18px;
     border-radius: var(--radius-full);
     border: 2px solid var(--gray-200);
     background: white;
@@ -136,7 +140,7 @@
   }
 
   .toppers-bg {
-    background: linear-gradient(135deg, #FFF5EB 0%, #FFF0E6 50%, #FFF8F0 100%);
+    background: linear-gradient(135deg, var(--orange-light) 0%, var(--orange-light) 50%, #FFF8F0 100%);
     padding: var(--space-5);
     display: flex;
     flex-direction: column;

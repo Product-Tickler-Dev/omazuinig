@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getProduct } from '$lib/data/products';
   import { getCheapestStore } from '$lib/utils/price';
+  import { getCategoryColor } from '$lib/data/categories';
   import StoreBadge from './StoreBadge.svelte';
 
   let { productId, checked, ontoggle, onremove }: {
@@ -16,19 +17,13 @@
   );
   let cheapestId = $derived(product ? getCheapestStore(product)[0] : '');
 
-  const categoryColors: Record<string, string> = {
-    zuivel: '#4FC3F7',
-    brood: '#FFB74D',
-    groente: '#81C784',
-    dranken: '#BA68C8'
-  };
-
-  let catColor = $derived(product ? categoryColors[product.category] ?? '#BDBDBD' : '#BDBDBD');
+  let catColor = $derived(product ? getCategoryColor(product.category) : '#BDBDBD');
 </script>
 
 {#if product}
   <div class="list-item" class:checked style:--cat-color={catColor}>
     <div class="cat-accent"></div>
+    <label class="checkbox-target">
     <button class="checkbox" class:is-checked={checked} onclick={ontoggle}>
       {#if checked}
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -36,6 +31,7 @@
         </svg>
       {/if}
     </button>
+    </label>
     <div class="info">
       <div class="name-row">
         <span class="name">{product.name}</span>
@@ -85,6 +81,16 @@
   .list-item.checked .name {
     text-decoration: line-through;
     color: var(--gray-500);
+  }
+
+  .checkbox-target {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    cursor: pointer;
   }
 
   .checkbox {
@@ -146,7 +152,7 @@
     cursor: pointer;
     color: var(--gray-300);
     flex-shrink: 0;
-    padding: 6px;
+    padding: 14px;
     border-radius: 50%;
     transition: all var(--transition-fast);
     display: flex;

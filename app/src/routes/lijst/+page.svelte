@@ -66,9 +66,9 @@
       />
     </div>
     {#if searchResults.length > 0}
-      <div class="autocomplete">
+      <div class="autocomplete" role="listbox" aria-label="Zoekresultaten">
         {#each searchResults as product}
-          <button class="autocomplete-item" onclick={() => addItem(product.id)}>
+          <button class="autocomplete-item" role="option" aria-selected="false" onclick={() => addItem(product.id)}>
             <span class="ac-name">{product.name}</span>
             <span class="ac-price">{formatPrice(getCheapestStore(product)[1])}</span>
             <span class="ac-size">{product.size}</span>
