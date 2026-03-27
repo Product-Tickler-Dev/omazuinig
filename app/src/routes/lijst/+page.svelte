@@ -146,14 +146,15 @@
   }
 
   .top-oma {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
   }
 
   .top-bar h1 {
-    font-size: 22px;
+    font-size: 26px;
+    letter-spacing: -0.02em;
     color: var(--orange);
   }
 
@@ -281,8 +282,8 @@
   }
 
   .advice-avatar {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 0 2px 6px rgba(255, 98, 0, 0.15);

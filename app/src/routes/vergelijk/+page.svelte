@@ -74,14 +74,15 @@
   }
 
   .top-oma {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
   }
 
   .top-bar h1 {
-    font-size: 22px;
+    font-size: 26px;
+    letter-spacing: -0.02em;
     color: var(--orange);
   }
 
