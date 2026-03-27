@@ -62,8 +62,8 @@
 
 html {
 	overflow-x: hidden;
+	overflow-y: scroll;
 	scroll-behavior: smooth;
-	scrollbar-gutter: stable;
 }
 
 body {
