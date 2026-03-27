@@ -1,0 +1,12 @@
+{
+  "name": "Oma Zuinig",
+  "short_name": "Oma Zuinig",
+  "description": "Vergelijk boodschappenprijzen bij alle Nederlandse supermarkten",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF9F0",
+  "theme_color": "#FF6200",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

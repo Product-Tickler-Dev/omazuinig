@@ -1,0 +1,39 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"src": "/_app/immutable/.+",
+			"headers": {
+				"cache-control": "public, immutable, max-age=31536000"
+			}
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "^/?(?:/__data.json)?$",
+			"dest": "/"
+		},
+		{
+			"src": "^/deals/?(?:/__data.json)?$",
+			"dest": "/deals"
+		},
+		{
+			"src": "^/lijst/?(?:/__data.json)?$",
+			"dest": "/lijst"
+		},
+		{
+			"src": "^/mijn-oma/?(?:/__data.json)?$",
+			"dest": "/mijn-oma"
+		},
+		{
+			"src": "^/vergelijk/?(?:/__data.json)?$",
+			"dest": "/vergelijk"
+		},
+		{
+			"src": "/.*",
+			"dest": "/![-]/catchall"
+		}
+	],
+	"overrides": {}
+}
