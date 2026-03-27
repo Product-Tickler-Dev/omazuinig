@@ -1,10 +1,13 @@
 <script lang="ts">
   import { DEALS } from '$lib/data/deals';
+  import { PRODUCTS } from '$lib/data/products';
   import DealCard from '$lib/components/DealCard.svelte';
+  import ProductCard from '$lib/components/ProductCard.svelte';
   import OmaBubble from '$lib/components/OmaBubble.svelte';
   import { toasts } from '$lib/stores/toast';
 
-  const topDeals = DEALS.sort((a, b) => b.discount - a.discount).slice(0, 5);
+  const topDeals = [...DEALS].sort((a, b) => b.discount - a.discount);
+  const popularProducts = PRODUCTS.slice(0, 4);
 </script>
 
 <div class="page">
@@ -18,15 +21,11 @@
       <span class="hero-greeting">Hoi lieverd!</span>
       <p class="hero-text">Oma heeft vandaag</p>
       <span class="hero-amount">&euro;14,20</span>
-      <p class="hero-text">voor je bespaard</p>
+      <p class="hero-text">voor je bespaard!</p>
     </div>
-    <div class="hero-image">
-      <img src="/oma-hero.png" alt="Oma Zuinig helpt je besparen" class="hero-img" />
+    <div class="hero-avatar">
+      <img src="/oma-avatar.png" alt="Oma Zuinig" class="hero-oma" />
     </div>
-  </div>
-
-  <div class="bubble-section">
-    <OmaBubble text="Welkom terug! Ik heb mooie aanbiedingen voor je gevonden." />
   </div>
 
   <div class="quick-actions">
@@ -71,6 +70,21 @@
         <DealCard {deal} />
       </div>
     {/each}
+  </div>
+
+  <div class="section-header">
+    <h3 class="section-title">Populaire producten</h3>
+    <a href="/vergelijk" class="section-link">Meer</a>
+  </div>
+
+  <div class="products-list">
+    {#each popularProducts as product}
+      <ProductCard {product} />
+    {/each}
+  </div>
+
+  <div class="home-oma-tip">
+    <OmaBubble text="Tip: voeg producten toe aan je lijst en ik zoek de goedkoopste winkel!" />
   </div>
 </div>
 
@@ -173,20 +187,18 @@
     margin: var(--space-1) 0;
   }
 
-  .hero-image {
+  .hero-avatar {
     flex-shrink: 0;
     z-index: 1;
   }
 
-  .hero-img {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
-  }
-
-  .bubble-section {
-    margin-top: -8px;
+  .hero-oma {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   }
 
   .quick-actions {
@@ -301,5 +313,15 @@
   .deal-slide {
     flex-shrink: 0;
     width: 240px;
+  }
+
+  .products-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .home-oma-tip {
+    padding: var(--space-2) 0;
   }
 </style>

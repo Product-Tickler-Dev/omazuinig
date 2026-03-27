@@ -40,14 +40,17 @@
     </div>
 
     <div class="badges">
-      {#each sortedPrices as [storeId, price], i}
+      {#each sortedPrices.slice(0, 4) as [storeId, price], i}
         <StoreBadge
           {storeId}
           {price}
           cheapest={storeId === cheapest[0]}
-          duur={storeId === expensive[0]}
+          duur={false}
         />
       {/each}
+      {#if sortedPrices.length > 4}
+        <span class="more-stores">+{sortedPrices.length - 4}</span>
+      {/if}
     </div>
 
     <div class="footer">
@@ -82,10 +85,10 @@
   .card-body {
     flex: 1;
     min-width: 0;
-    padding: var(--space-4);
+    padding: var(--space-3) var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--space-2);
   }
 
   .header {
@@ -123,6 +126,14 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-1);
+    align-items: center;
+  }
+
+  .more-stores {
+    font-size: 11px;
+    color: var(--gray-500);
+    font-weight: 500;
+    padding: 2px 6px;
   }
 
   .footer {
