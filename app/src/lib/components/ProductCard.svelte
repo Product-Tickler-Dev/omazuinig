@@ -28,7 +28,7 @@
   <div class="card-body">
     <div class="header">
       {#if product.imageUrl}
-        <img src={product.imageUrl} alt="" class="product-img" loading="lazy" />
+        <img src={product.imageUrl} alt="" class="product-img" loading="lazy" onerror={(e) => e.currentTarget.style.display = 'none'} />
       {/if}
       <div class="title">
         <span class="name">{product.name}</span>

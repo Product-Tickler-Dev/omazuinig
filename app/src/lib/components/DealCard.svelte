@@ -22,7 +22,7 @@
       </div>
       <div class="product-info">
         {#if product.imageUrl}
-          <img src={product.imageUrl} alt="" class="deal-img" loading="lazy" />
+          <img src={product.imageUrl} alt="" class="deal-img" loading="lazy" onerror={(e) => e.currentTarget.style.display = 'none'} />
         {/if}
         <div class="product-text">
           <span class="product-name">{product.name}</span>
