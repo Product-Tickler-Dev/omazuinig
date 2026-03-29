@@ -101,4 +101,20 @@
     display: flex;
     flex-direction: column;
   }
+
+  @media (min-width: 768px) {
+    .page {
+      padding-bottom: var(--space-8);
+    }
+
+    .search-input {
+      max-width: 500px;
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+  }
 </style>

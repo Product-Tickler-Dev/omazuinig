@@ -2,6 +2,7 @@
   import '../app.css';
   import { page } from '$app/stores';
   import BottomNav from '$lib/components/BottomNav.svelte';
+  import DesktopNav from '$lib/components/DesktopNav.svelte';
   import Toast from '$lib/components/Toast.svelte';
   import Celebration from '$lib/components/Celebration.svelte';
 
@@ -18,6 +19,7 @@
   let title = $derived(titles[$page.url.pathname] ?? 'Oma Zuinig');
 </script>
 
+<DesktopNav />
 <div class="app-shell">
   <header class="app-header">
     <img src="/oma-avatar.png" alt="" class="header-oma" />
@@ -58,5 +60,16 @@
     font-weight: 700;
     color: var(--orange);
     letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .app-shell {
+      max-width: 1200px;
+      padding: 0 var(--space-8);
+    }
+
+    .app-header {
+      display: none;
+    }
   }
 </style>

@@ -118,4 +118,10 @@
     letter-spacing: 0.01em;
     line-height: 1;
   }
+
+  @media (min-width: 768px) {
+    .bottom-nav {
+      display: none;
+    }
+  }
 </style>

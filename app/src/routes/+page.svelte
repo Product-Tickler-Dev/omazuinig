@@ -312,4 +312,116 @@
     display: flex;
     flex-direction: column;
   }
+
+  @media (min-width: 768px) {
+    .page {
+      padding-bottom: var(--space-4);
+      gap: var(--space-3);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto auto;
+    }
+
+    /* Row 1: hero + quick actions side by side */
+    .hero {
+      grid-column: 1;
+      min-height: auto;
+      padding: var(--space-4) var(--space-5);
+    }
+
+    .hero-greeting {
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+
+    .hero-text {
+      font-size: 13px;
+    }
+
+    .hero-amount {
+      font-size: 40px;
+      margin: 0;
+    }
+
+    .hero-oma {
+      width: 64px;
+      height: 64px;
+    }
+
+    .quick-actions {
+      grid-column: 2;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      align-self: center;
+    }
+
+    .action-btn {
+      flex-direction: row;
+      padding: var(--space-2) var(--space-3);
+      gap: var(--space-2);
+    }
+
+    .action-icon-wrap {
+      width: 32px;
+      height: 32px;
+    }
+
+    .action-icon-wrap svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .action-label {
+      font-size: 13px;
+    }
+
+    /* Row 2: deals full width */
+    .deals-accent {
+      grid-column: 1 / -1;
+      margin: 0;
+      padding: var(--space-3) 0;
+      gap: var(--space-2);
+      background: transparent;
+    }
+
+    .section-header {
+      grid-column: 1 / -1;
+    }
+
+    .section-title {
+      font-size: 17px;
+    }
+
+    .deals-carousel {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      overflow-x: visible;
+      margin: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .deals-carousel::after {
+      display: none;
+    }
+
+    .deal-slide {
+      width: auto;
+    }
+
+    /* Hide deals beyond first 4 */
+    .deal-slide:nth-child(n+5) {
+      display: none;
+    }
+
+    /* Row 3: products full width, single row */
+    .products-list {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-3);
+    }
+  }
 </style>

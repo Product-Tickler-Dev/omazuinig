@@ -353,4 +353,34 @@
     background: var(--orange-light);
     color: var(--orange);
   }
+
+  @media (min-width: 768px) {
+    .page {
+      padding-bottom: var(--space-8);
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      grid-template-rows: auto 1fr;
+      gap: var(--space-6);
+    }
+
+    .search-wrapper {
+      grid-column: 1 / -1;
+    }
+
+    .list {
+      grid-column: 1;
+    }
+
+    .advice-panel {
+      grid-column: 2;
+      grid-row: 2;
+      position: sticky;
+      top: 88px;
+      bottom: auto;
+      border-top: none;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      align-self: start;
+    }
+  }
 </style>

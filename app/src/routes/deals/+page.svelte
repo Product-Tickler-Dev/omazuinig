@@ -176,4 +176,21 @@
     grid-template-columns: 1fr 1fr;
     gap: var(--space-3);
   }
+
+  @media (min-width: 768px) {
+    .page {
+      padding-bottom: var(--space-8);
+    }
+
+    .toppers-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .deals-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+  }
 </style>

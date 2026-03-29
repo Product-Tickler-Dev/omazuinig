@@ -496,4 +496,28 @@
     color: var(--gray-300);
     flex-shrink: 0;
   }
+
+  @media (min-width: 768px) {
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding-bottom: var(--space-8);
+    }
+
+    .stats-row {
+      gap: var(--space-8);
+    }
+
+    .chart-section {
+      padding: var(--space-8);
+    }
+
+    .chart {
+      height: 180px;
+    }
+
+    .bar {
+      width: 24px;
+    }
+  }
 </style>
