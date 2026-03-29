@@ -190,3 +190,22 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 	outline: 2px solid var(--orange);
 	outline-offset: 2px;
 }
+
+/* Page transitions (View Transitions API) */
+@keyframes scaleOut {
+	from { opacity: 1; transform: scale(1); }
+	to { opacity: 0; transform: scale(0.97); }
+}
+
+@keyframes scaleIn {
+	from { opacity: 0; transform: scale(1.02); }
+	to { opacity: 1; transform: scale(1); }
+}
+
+::view-transition-old(root) {
+	animation: scaleOut 200ms ease-out both;
+}
+
+::view-transition-new(root) {
+	animation: scaleIn 200ms ease-out both;
+}

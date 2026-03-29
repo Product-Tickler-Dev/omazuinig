@@ -10,6 +10,19 @@
   let searchQuery = $state('');
   let adviceMode = $state<'single' | 'split'>('single');
 
+  // Oma reaction system
+  type OmaMood = 'happy' | 'excited' | 'thinking' | 'wink' | 'sad' | 'proud' | 'neutral';
+  let omaReaction = $state<{ mood: OmaMood; text: string } | null>(null);
+  let reactionTimeout: ReturnType<typeof setTimeout>;
+
+  const addPhrases = ["Goeie keus, lieverd!", "Die ken ik!", "Op de lijst!", "Oma keurt goed!"];
+
+  function showReaction(mood: OmaMood, text: string, duration = 3000) {
+    clearTimeout(reactionTimeout);
+    omaReaction = { mood, text };
+    reactionTimeout = setTimeout(() => { omaReaction = null; }, duration);
+  }
+
   let items = $derived($shoppingList);
   let uncheckedItems = $derived(items.filter(i => !i.checked));
   let checkedItems = $derived(items.filter(i => i.checked));
@@ -41,6 +54,21 @@
     const product = getProduct(productId);
     toasts.show(`${product?.name ?? 'Product'} toegevoegd!`);
     searchQuery = '';
+    showReaction('wink', addPhrases[Math.floor(Math.random() * addPhrases.length)]);
+  }
+
+  function toggleItem(productId: number) {
+    const wasChecked = items.find(i => i.productId === productId)?.checked;
+    shoppingList.toggle(productId);
+    if (!wasChecked) {
+      showReaction('happy', 'Afgevinkt!');
+    }
+  }
+
+  function removeItem(productId: number) {
+    const product = getProduct(productId);
+    shoppingList.remove(productId);
+    showReaction('sad', 'Oh, die dan niet?');
   }
 </script>
 
@@ -71,16 +99,24 @@
     {/if}
   </div>
 
+  {#if omaReaction}
+    <div class="reaction-bubble">
+      {#key omaReaction.text}
+        <OmaBubble text={omaReaction.text} mood={omaReaction.mood} />
+      {/key}
+    </div>
+  {/if}
+
   {#if items.length === 0}
-    <OmaBubble text="Je lijst is leeg! Voeg iets toe, lieverd." />
+    <OmaBubble text="Je lijst is leeg! Voeg iets toe, lieverd." mood="sad" />
   {:else}
     <div class="list">
       {#each sortedItems as item (item.productId)}
         <ListItem
           productId={item.productId}
           checked={item.checked}
-          ontoggle={() => shoppingList.toggle(item.productId)}
-          onremove={() => shoppingList.remove(item.productId)}
+          ontoggle={() => toggleItem(item.productId)}
+          onremove={() => removeItem(item.productId)}
         />
       {/each}
     </div>
@@ -99,7 +135,7 @@
         <button
           class="mode-btn"
           class:active={adviceMode === 'split'}
-          onclick={() => adviceMode = 'split'}
+          onclick={() => { adviceMode = 'split'; showReaction('excited', 'Maximaal besparen, zo mag ik het zien!'); }}
         >Max besparing</button>
       </div>
       <div class="advice-content">
@@ -352,6 +388,15 @@
     border-radius: var(--radius-full);
     background: var(--orange-light);
     color: var(--orange);
+  }
+
+  .reaction-bubble {
+    animation: reactionIn 0.3s ease-out;
+  }
+
+  @keyframes reactionIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @media (min-width: 768px) {

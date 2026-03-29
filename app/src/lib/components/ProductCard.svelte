@@ -59,6 +59,13 @@
     display: flex;
     overflow: hidden;
     border-bottom: 1px solid #F0F0F0;
+    transition: background 0.15s ease, box-shadow 0.2s ease;
+  }
+
+  @media (min-width: 768px) {
+    .product-card:hover {
+      background: var(--gray-50);
+    }
   }
 
   .card-body {
@@ -135,14 +142,15 @@
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: background var(--transition-fast);
+    transition: background var(--transition-fast), transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
   }
 
   .add-btn:hover {
     background: var(--green-dark);
+    box-shadow: var(--shadow-green);
   }
 
   .add-btn:active {
-    opacity: 0.85;
+    transform: scale(0.9);
   }
 </style>

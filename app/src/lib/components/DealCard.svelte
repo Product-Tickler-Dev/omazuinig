@@ -47,13 +47,17 @@
     flex-direction: column;
     min-height: 140px;
     overflow: hidden;
-    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), border-color var(--transition-fast);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color var(--transition-fast), box-shadow 0.2s ease;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .deal-card:hover {
-    border-color: var(--gray-300);
+  @media (min-width: 768px) {
+    .deal-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--gray-300);
+      box-shadow: var(--shadow-md);
+    }
   }
 
   .deal-card:active {

@@ -40,7 +40,7 @@
 
   {#if filteredProducts.length === 0}
     <div class="empty-state">
-      <OmaBubble text="Niks gevonden, lieverd. Probeer iets anders!" />
+      <OmaBubble text="Niks gevonden, lieverd. Probeer iets anders!" mood="thinking" />
     </div>
   {:else}
     <div class="product-list">

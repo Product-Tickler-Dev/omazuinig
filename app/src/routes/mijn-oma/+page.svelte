@@ -74,7 +74,7 @@
   </div>
 
   <div class="oma-bubble-wrap">
-    <OmaBubble text="Goed bezig, lieverd! Je bespaart steeds meer." mood="happy" />
+    <OmaBubble text="Goed bezig, lieverd! Je bespaart steeds meer." mood="proud" />
   </div>
 
   <div class="stats-row">

@@ -1,10 +1,26 @@
 <script lang="ts">
-  let { text, mood = 'happy' }: { text: string; mood?: 'happy' | 'excited' | 'thinking' | 'neutral' } = $props();
+  type Mood = 'happy' | 'excited' | 'thinking' | 'neutral' | 'wink' | 'sad' | 'proud';
+
+  let { text, mood = 'happy' }: { text: string; mood?: Mood } = $props();
+
+  const moodImages: Record<Mood, string> = {
+    happy: '/oma-avatar.png',
+    neutral: '/oma-avatar.png',
+    excited: '/oma-excited.webp',
+    thinking: '/oma-thinking.webp',
+    wink: '/oma-wink.webp',
+    sad: '/oma-sad.webp',
+    proud: '/oma-proud.webp'
+  };
+
+  let imageSrc = $derived(moodImages[mood] ?? '/oma-avatar.png');
 </script>
 
 <div class="bubble-wrapper">
-  <div class="avatar-ring" class:excited={mood === 'excited'}>
-    <img src="/oma-avatar.png" alt="Oma Zuinig" class="avatar-img" />
+  <div class="avatar-ring" class:mood-change={mood !== 'happy' && mood !== 'neutral'}>
+    {#key imageSrc}
+      <img src={imageSrc} alt="Oma Zuinig" class="avatar-img" />
+    {/key}
   </div>
   <div class="bubble">
     <div class="bubble-tail"></div>
@@ -25,22 +41,21 @@
 
   .avatar-ring {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     padding: 2px;
     background: linear-gradient(135deg, var(--orange) 0%, var(--orange-warm, #FF8A3D) 100%);
     box-shadow: 0 4px 12px rgba(255, 98, 0, 0.2);
   }
 
-  .avatar-ring.excited {
-    animation: avatarBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  .avatar-ring.mood-change {
+    animation: avatarPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  @keyframes avatarBounce {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.15); }
-    70% { transform: scale(0.95); }
+  @keyframes avatarPop {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.08); }
     100% { transform: scale(1); }
   }
 
@@ -50,12 +65,24 @@
     border-radius: 50%;
     object-fit: cover;
     display: block;
+    animation: imgFadeIn 0.3s ease-out;
+  }
+
+  @keyframes imgFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   .bubble {
     position: relative;
     background: #F8F5F0;
     padding: var(--space-3) var(--space-4);
+    animation: bubbleSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes bubbleSlide {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
   }
 
   .bubble-tail {

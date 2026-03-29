@@ -25,7 +25,7 @@
     <button class="checkbox" class:is-checked={checked} onclick={ontoggle}>
       {#if checked}
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2.5 7L5.5 10L11.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2.5 7L5.5 10L11.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="20"/>
         </svg>
       {/if}
     </button>
@@ -63,11 +63,13 @@
 
   .list-item.checked {
     opacity: 0.35;
+    transition: opacity 0.4s ease;
   }
 
   .list-item.checked .name {
     text-decoration: line-through;
     color: var(--gray-500);
+    transition: color 0.3s ease;
   }
 
   .checkbox-target {
@@ -92,13 +94,29 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    transition: all var(--transition-fast);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .checkbox.is-checked {
     background: var(--orange);
     border-color: var(--orange);
     box-shadow: 0 2px 6px rgba(255, 98, 0, 0.25);
+    animation: checkPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .checkbox.is-checked svg {
+    animation: checkDraw 0.3s ease-out 0.05s both;
+  }
+
+  @keyframes checkPop {
+    0% { transform: scale(0.7); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes checkDraw {
+    from { stroke-dashoffset: 20; opacity: 0; }
+    to { stroke-dashoffset: 0; opacity: 1; }
   }
 
   .info {
