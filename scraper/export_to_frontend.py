@@ -192,13 +192,10 @@ def build_frontend_data(stores_data: dict[str, list[dict]], max_products: int = 
         # Remove "AH " prefix for cleaner display
         name = re.sub(r'^AH\s+(?:Excellent\s+|Biologisch\s+|Terra\s+)?', '', name)
 
-        # Use smaller image rendition for performance
         # Only use AH images (their CDN allows hotlinking, others block it)
         img_url = p.get("image_url") or ""
         if img_url and "static.ah.nl" not in img_url:
-            img_url = ""  # Skip non-AH images (blocked by CDN)
-        if img_url and "800x800" in img_url:
-            img_url = img_url.replace("800x800", "200x200")
+            img_url = ""
 
         frontend_products.append({
             "id": i,
