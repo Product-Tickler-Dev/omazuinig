@@ -111,11 +111,10 @@
   }
 
   .oma-text {
-    font-family: 'Caveat', cursive;
-    font-weight: 700;
-    font-size: 21px;
+    font-size: 15px;
+    font-weight: 600;
     color: var(--dark);
-    line-height: 1.3;
+    line-height: 1.4;
   }
 
   .thinking-dots span {
