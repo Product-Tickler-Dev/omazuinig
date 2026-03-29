@@ -21,8 +21,8 @@
         <span class="discount-badge">-{deal.discount}%</span>
       </div>
       <div class="product-info">
-        {#if product.imageUrl}
-          <img src={product.imageUrl} alt="" class="deal-img" loading="lazy" onerror={(e) => e.currentTarget.style.display = 'none'} />
+        {#if product.imageUrl && product.imageUrl.startsWith('http')}
+          <img src={product.imageUrl} alt="" class="deal-img" loading="lazy" />
         {/if}
         <div class="product-text">
           <span class="product-name">{product.name}</span>
@@ -119,6 +119,7 @@
     object-fit: contain;
     flex-shrink: 0;
     border-radius: var(--radius-sm);
+    background: var(--gray-50);
   }
 
   .product-text {

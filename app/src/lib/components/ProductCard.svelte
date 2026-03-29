@@ -27,8 +27,8 @@
 <div class="product-card">
   <div class="card-body">
     <div class="header">
-      {#if product.imageUrl}
-        <img src={product.imageUrl} alt="" class="product-img" loading="lazy" onerror={(e) => e.currentTarget.style.display = 'none'} />
+      {#if product.imageUrl && product.imageUrl.startsWith('http')}
+        <img src={product.imageUrl} alt="" class="product-img" loading="lazy" />
       {/if}
       <div class="title">
         <span class="name">{product.name}</span>
@@ -93,6 +93,7 @@
     object-fit: contain;
     flex-shrink: 0;
     border-radius: var(--radius-sm);
+    background: var(--gray-50);
   }
 
   .cat-label {
