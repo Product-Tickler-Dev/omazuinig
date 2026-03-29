@@ -1,7 +1,6 @@
 <script lang="ts">
   import '../app.css';
   import { page } from '$app/stores';
-  import { onNavigate } from '$app/navigation';
   import BottomNav from '$lib/components/BottomNav.svelte';
   import DesktopNav from '$lib/components/DesktopNav.svelte';
   import Toast from '$lib/components/Toast.svelte';
@@ -19,16 +18,6 @@
 
   let title = $derived(titles[$page.url.pathname] ?? 'Oma Zuinig');
 
-  onNavigate((navigation) => {
-    if (!document.startViewTransition) return;
-
-    return new Promise((resolve) => {
-      document.startViewTransition(async () => {
-        resolve();
-        await navigation.complete;
-      });
-    });
-  });
 </script>
 
 <DesktopNav />
