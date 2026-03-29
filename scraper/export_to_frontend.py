@@ -141,13 +141,40 @@ def build_frontend_data(stores_data: dict[str, list[dict]], max_products: int = 
     When we have multiple stores, products with matching names+brands get
     merged into one Product with prices from each store.
     """
-    # For now: single store, each scraped product becomes a frontend Product
-    all_scraped = []
+    # Try to merge products across stores by matching brand + name
+    # Build a lookup of normalized name → {store: price, ...}
+    import sys, os
+    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+    from scraper.matcher import normalize_name, normalize_brand
+
+    merged: dict[str, dict] = {}  # key → merged product dict
+
     for store_id, products in stores_data.items():
         for p in products:
             p["_store_id"] = store_id
             p["category"] = recategorize(p)
-            all_scraped.append(p)
+
+            # Generate a merge key from brand + normalized name + size
+            brand = normalize_brand(p.get("brand")) or ""
+            norm = normalize_name(p.get("name", ""))
+            size = (p.get("unit_size") or "").lower().strip()
+            merge_key = f"{brand}|{norm}|{size}"
+
+            if merge_key in merged:
+                # Add this store's price to existing product
+                merged[merge_key]["prices"][store_id] = p["current_price"]
+                # Keep the best image
+                if not merged[merge_key].get("image_url") and p.get("image_url"):
+                    merged[merge_key]["image_url"] = p["image_url"]
+            else:
+                merged[merge_key] = {
+                    **p,
+                    "prices": {store_id: p["current_price"]},
+                }
+
+    all_scraped = list(merged.values())
+    multi_store = sum(1 for p in all_scraped if len(p["prices"]) > 1)
+    logger.info("Merged products: %d total, %d matched across stores", len(all_scraped), multi_store)
 
     selected = select_products(all_scraped, max_products)
 
@@ -155,11 +182,8 @@ def build_frontend_data(stores_data: dict[str, list[dict]], max_products: int = 
     frontend_deals = []
 
     for i, p in enumerate(selected, start=1):
-        store_id = p["_store_id"]
-        price = p["current_price"]
-
-        # Build prices dict — only the store we have data from
-        prices = {store_id: price}
+        # Use merged prices from all stores
+        prices = p.get("prices", {p["_store_id"]: p["current_price"]})
 
         # Clean up the display name
         name = p["name"]
@@ -183,13 +207,14 @@ def build_frontend_data(stores_data: dict[str, list[dict]], max_products: int = 
         })
 
         # Create deal entry if it's a deal
-        if p.get("is_deal") and p.get("original_price") and p["original_price"] > price:
-            discount = round((1 - price / p["original_price"]) * 100)
+        lowest_price = min(prices.values()) if prices else 0
+        if p.get("is_deal") and p.get("original_price") and p["original_price"] > lowest_price:
+            discount = round((1 - lowest_price / p["original_price"]) * 100)
             frontend_deals.append({
                 "productId": i,
                 "store": store_id,
                 "oldPrice": p["original_price"],
-                "newPrice": price,
+                "newPrice": lowest_price,
                 "discount": discount,
             })
 
