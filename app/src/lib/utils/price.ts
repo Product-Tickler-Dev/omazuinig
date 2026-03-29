@@ -1,5 +1,4 @@
 import type { Product, ShoppingListItem } from '$lib/data/types';
-import { STORES } from '$lib/data/stores';
 
 export function formatPrice(n: number): string {
   return '\u20AC' + n.toFixed(2).replace('.', ',');
@@ -18,13 +17,31 @@ export function calculateBestSingleStore(
   getProduct: (id: number) => Product | undefined
 ): [string, number][] {
   const unchecked = items.filter(i => !i.checked);
+  const products = unchecked.map(i => getProduct(i.productId)).filter(Boolean) as Product[];
+
+  if (products.length === 0) return [];
+
+  // Find all stores that appear in at least one product
+  const allStores = new Set<string>();
+  products.forEach(p => Object.keys(p.prices).forEach(s => allStores.add(s)));
+
+  // Calculate total per store — only count stores that have a price for the product
+  // If a store doesn't carry a product, use the cheapest available price as fallback
   const storeTotals: Record<string, number> = {};
-  STORES.forEach(s => { storeTotals[s.id] = 0; });
-  unchecked.forEach(item => {
-    const product = getProduct(item.productId);
-    if (!product) return;
-    STORES.forEach(s => { storeTotals[s.id] += product.prices[s.id] ?? 0; });
+  allStores.forEach(storeId => {
+    let total = 0;
+    for (const product of products) {
+      if (product.prices[storeId] != null) {
+        total += product.prices[storeId];
+      } else {
+        // Store doesn't carry this product — use cheapest available
+        const cheapest = getCheapestStore(product);
+        total += cheapest[1];
+      }
+    }
+    storeTotals[storeId] = total;
   });
+
   return Object.entries(storeTotals).sort((a, b) => a[1] - b[1]);
 }
 
@@ -49,6 +66,6 @@ export function calculateSplitSavings(
     storesUsed: [...storesUsed],
     singleStore,
     singleTotal,
-    savings: singleTotal - splitTotal
+    savings: Math.max(0, singleTotal - splitTotal)
   };
 }

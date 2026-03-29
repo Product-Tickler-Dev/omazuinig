@@ -100,7 +100,7 @@
   </div>
 
   {#if omaReaction}
-    <div class="reaction-bubble">
+    <div class="reaction-toast">
       {#key omaReaction.text}
         <OmaBubble text={omaReaction.text} mood={omaReaction.mood} />
       {/key}
@@ -390,13 +390,28 @@
     color: var(--orange);
   }
 
-  .reaction-bubble {
-    animation: reactionIn 0.3s ease-out;
+  .reaction-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-2) var(--space-4);
+    animation: toastIn 0.3s ease-out;
   }
 
-  @keyframes reactionIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+  @media (min-width: 768px) {
+    .reaction-toast {
+      bottom: var(--space-8);
+    }
+  }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
   }
 
   @media (min-width: 768px) {
