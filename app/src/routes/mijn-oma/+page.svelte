@@ -73,7 +73,9 @@
     <span class="savings-label">totaal bespaard</span>
   </div>
 
-  <OmaBubble text="Goed bezig, lieverd! Je bespaart steeds meer." mood="happy" />
+  <div class="oma-bubble-wrap">
+    <OmaBubble text="Goed bezig, lieverd! Je bespaart steeds meer." mood="happy" />
+  </div>
 
   <div class="stats-row">
     <div class="stat stat-highlight">
@@ -92,25 +94,26 @@
     </div>
   </div>
 
-  <div class="chart-section">
-    <h2 class="section-heading">Besparingen per week</h2>
-    <div class="chart">
-      {#each weeklyData as week, i}
-        <div class="bar-wrapper">
-          <div
-            class="bar"
-            style:height="{(week.amount / maxAmount) * 100}%"
-            style:animation-delay="{i * 80}ms"
-          >
-            <span class="bar-value">&euro;{week.amount.toFixed(0)}</span>
+  <div class="data-row">
+    <div class="chart-section">
+      <h2 class="section-heading">Besparingen per week</h2>
+      <div class="chart">
+        {#each weeklyData as week, i}
+          <div class="bar-wrapper">
+            <div
+              class="bar"
+              style:height="{(week.amount / maxAmount) * 100}%"
+              style:animation-delay="{i * 80}ms"
+            >
+              <span class="bar-value">&euro;{week.amount.toFixed(0)}</span>
+            </div>
+            <span class="bar-label">{week.label}</span>
           </div>
-          <span class="bar-label">{week.label}</span>
-        </div>
-      {/each}
+        {/each}
+      </div>
     </div>
-  </div>
 
-  <div class="level-section">
+    <div class="level-section">
     <div class="level-header">
       <h2 class="section-heading">Koopjeskoning</h2>
       <span class="level-pct">62%</span>
@@ -134,6 +137,7 @@
       {/each}
     </div>
     <p class="level-motivation">Nog &euro;153 tot Expert!</p>
+  </div>
   </div>
 
   <div class="settings-section">
@@ -497,27 +501,71 @@
     flex-shrink: 0;
   }
 
+  .data-row {
+    display: contents;
+  }
+
   @media (min-width: 768px) {
     .page {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      padding-bottom: var(--space-8);
+      padding-bottom: var(--space-4);
+      gap: var(--space-3);
+    }
+
+    .profile-hero {
+      padding: var(--space-2) 0;
+      gap: var(--space-1);
+    }
+
+    .avatar-glow {
+      width: 56px;
+      height: 56px;
+    }
+
+    .savings-amount {
+      font-size: 40px;
+    }
+
+    .oma-bubble-wrap {
+      display: none;
     }
 
     .stats-row {
       gap: var(--space-8);
+      padding: var(--space-2) 0;
+    }
+
+    .data-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
     }
 
     .chart-section {
-      padding: var(--space-8);
+      padding: var(--space-4);
     }
 
     .chart {
-      height: 180px;
+      height: 120px;
     }
 
-    .bar {
-      width: 24px;
+    .level-section {
+      padding: var(--space-4);
+    }
+
+    .settings-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 var(--space-6);
+    }
+
+    .settings-section .section-heading {
+      grid-column: 1 / -1;
+    }
+
+    .setting-row {
+      padding: var(--space-3) 0;
     }
   }
 </style>
