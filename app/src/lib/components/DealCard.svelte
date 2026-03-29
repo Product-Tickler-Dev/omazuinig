@@ -21,6 +21,9 @@
         <span class="discount-badge">-{deal.discount}%</span>
       </div>
       <div class="product-info">
+        {#if product.imageUrl}
+          <img src={product.imageUrl} alt="" class="deal-img" loading="lazy" />
+        {/if}
         <div class="product-text">
           <span class="product-name">{product.name}</span>
           <span class="product-meta">{product.brand}{product.brand && product.size ? ' \u2022 ' : ''}{product.size}</span>
@@ -107,7 +110,15 @@
   .product-info {
     display: flex;
     align-items: flex-start;
-    gap: var(--space-2);
+    gap: var(--space-3);
+  }
+
+  .deal-img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
   }
 
   .product-text {

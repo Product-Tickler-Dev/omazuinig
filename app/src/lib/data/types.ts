@@ -12,6 +12,7 @@ export interface Product {
   size: string;
   category: string;
   image: string;
+  imageUrl?: string;
   prices: Record<string, number>;
 }
 

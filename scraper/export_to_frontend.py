@@ -40,32 +40,33 @@ def recategorize(product: dict) -> str:
 
     name = (product.get("name") or "").lower()
     brand = (product.get("brand") or "").lower()
+    combined = f"{name} {brand}"
 
-    if any(k in name for k in ("melk", "yoghurt", "kwark", "vla", "room", "boter", "kaas", "ei ", "eieren", "zuivel")):
+    if any(k in combined for k in ("melk", "yoghurt", "kwark", "vla", "room", "boter", "kaas", "ei ", "eieren", "zuivel", "slagroom", "crème", "alpro", "plakken", "geraspte", "belegen", "jong ", "oud ")):
         return "zuivel"
-    if any(k in name for k in ("kip", "gehakt", "biefstuk", "worst", "ham", "bacon", "vlees", "filet", "schnitzel", "spare", "karbonade")):
+    if any(k in combined for k in ("kip", "kipfilet", "gehakt", "biefstuk", "worst", "ham", "bacon", "vlees", "filet", "schnitzel", "spare", "karbonade", "scharrel", "drumstick", "rollade", "speklap", "slavink", "rookworst", "plantaardig", "vega", "terra", "tofu", "tempeh")):
         return "vlees"
-    if any(k in name for k in ("zalm", "tonijn", "garnaal", "vis", "haring", "makreel", "kabeljauw", "pangasius")):
+    if any(k in combined for k in ("zalm", "tonijn", "garnaal", "vis", "haring", "makreel", "kabeljauw", "pangasius", "forel", "mosselen", "kibbeling")):
         return "vis"
-    if any(k in name for k in ("brood", "croissant", "beschuit", "cracker", "toast", "bol ", "bollen", "stokbrood")):
+    if any(k in combined for k in ("brood", "croissant", "beschuit", "cracker", "toast", "stokbrood", "volkoren", "spelt", "rogge", "bagel", "wrap", "tortilla", "pita")):
         return "brood"
-    if any(k in name for k in ("hagelslag", "pindakaas", "jam", "stroop", "beleg", "muesli", "cereals", "ontbijt", "haver")):
+    if any(k in combined for k in ("hagelslag", "pindakaas", "jam", "stroop", "beleg", "muesli", "cereals", "ontbijt", "haver", "granola", "cornflakes")):
         return "brood"
-    if any(k in name for k in ("groente", "tomaat", "sla", "komkommer", "paprika", "ui ", "wortel", "aardappel", "champignon")):
+    if any(k in combined for k in ("groente", "tomaat", "sla", "komkommer", "paprika", "ui ", "wortel", "aardappel", "champignon", "broccoli", "bloemkool", "courgette", "spinazie", "salade")):
         return "groente"
-    if any(k in name for k in ("appel", "banaan", "peer", "aardbei", "sinaasappel", "druif", "mango", "ananas", "fruit")):
+    if any(k in combined for k in ("appel", "banaan", "peer", "aardbei", "sinaasappel", "druif", "mango", "ananas", "fruit", "avocado", "citroen", "kiwi")):
         return "groente"
-    if any(k in name for k in ("pasta", "spaghetti", "macaroni", "penne", "rijst", "noodle", "couscous")):
+    if any(k in combined for k in ("pasta", "spaghetti", "macaroni", "penne", "rijst", "noodle", "couscous", "lasagne")):
         return "pasta"
-    if any(k in name for k in ("saus", "ketchup", "mayonaise", "mosterd", "olie", "azijn", "bouillon", "kruiden", "peper", "zout")):
+    if any(k in combined for k in ("saus", "ketchup", "mayonaise", "mosterd", "olie", "azijn", "bouillon", "kruiden", "peper", "zout", "pesto", "curry", "sambal")):
         return "conserven"
-    if any(k in name for k in ("soep", "blik", "conserv", "bonen", "mais", "tomatenpuree")):
+    if any(k in combined for k in ("soep", "blik", "conserv", "bonen", "mais", "tomatenpuree", "passata", "kokosmelk")):
         return "conserven"
-    if any(k in name for k in ("bier", "wijn", "pils", "radler")):
+    if any(k in combined for k in ("bier", "wijn", "pils", "radler", "prosecco")):
         return "dranken"
-    if any(k in name for k in ("cola", "fanta", "sap", "water", "limonade", "ice tea", "frisdrank", "energy")):
+    if any(k in combined for k in ("cola", "fanta", "sap", "water", "limonade", "ice tea", "frisdrank", "energy", "tonic", "cassis")):
         return "dranken"
-    if any(k in name for k in ("koffie", "thee", "cacao", "cappuccino", "espresso")):
+    if any(k in combined for k in ("koffie", "thee", "cacao", "cappuccino", "espresso", "capsule", "senseo", "nespresso")):
         return "dranken"
     if any(k in name for k in ("chips", "noten", "chocola", "koek", "snoep", "drop", "pepernoot", "speculaas", "reep")):
         return "snacks"
@@ -165,13 +166,19 @@ def build_frontend_data(stores_data: dict[str, list[dict]], max_products: int = 
         # Remove "AH " prefix for cleaner display
         name = re.sub(r'^AH\s+(?:Excellent\s+|Biologisch\s+|Terra\s+)?', '', name)
 
+        # Use smaller image rendition for performance
+        img_url = p.get("image_url") or ""
+        if img_url and "800x800" in img_url:
+            img_url = img_url.replace("800x800", "200x200")
+
         frontend_products.append({
             "id": i,
             "name": name,
             "brand": p.get("brand") or "Huismerk",
             "size": p.get("unit_size") or "",
             "category": p.get("category") or "overig",
-            "image": "",  # No emoji — we'll use store images later
+            "image": "",
+            "imageUrl": img_url,
             "prices": prices,
         })
 
@@ -201,10 +208,11 @@ def write_products_ts(products: list[dict]):
         name = p["name"].replace("'", "\\'")
         brand = p["brand"].replace("'", "\\'")
         size = p["size"].replace("'", "\\'")
+        img_url = p.get("imageUrl", "").replace("'", "\\'")
         lines.append(
             f"  {{ id: {p['id']}, name: '{name}', brand: '{brand}', "
             f"size: '{size}', category: '{p['category']}', "
-            f"image: '', prices: {{ {prices_str} }} }},"
+            f"image: '', imageUrl: '{img_url}', prices: {{ {prices_str} }} }},"
         )
     lines.append("];")
     lines.append("")

@@ -27,6 +27,9 @@
 <div class="product-card">
   <div class="card-body">
     <div class="header">
+      {#if product.imageUrl}
+        <img src={product.imageUrl} alt="" class="product-img" loading="lazy" />
+      {/if}
       <div class="title">
         <span class="name">{product.name}</span>
         <span class="meta">{product.brand}{product.brand && product.size ? ' \u2022 ' : ''}{product.size}</span>
@@ -82,6 +85,14 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-3);
+  }
+
+  .product-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
   }
 
   .cat-label {
