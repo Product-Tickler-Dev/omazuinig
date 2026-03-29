@@ -329,27 +329,55 @@ class AHSource(BaseSource):
 
     @staticmethod
     def _map_category(ah_category: Optional[str]) -> Optional[str]:
-        """Map AH's mainCategory to our category IDs."""
+        """Map AH's mainCategory to our category IDs.
+
+        AH uses short Dutch names like 'Kaas', 'Bier', 'Groente'.
+        We do case-insensitive substring matching to be robust against
+        minor variations.
+        """
         if not ah_category:
             return None
-        mapping = {
-            "Zuivel, plantaardig en eieren": "zuivel",
-            "Kaas, vleeswaren en tapas": "zuivel",
-            "Aardappel, groente en fruit": "groente",
-            "Vlees, kip, vis en vega": "vlees",
-            "Brood en gebak": "brood",
-            "Ontbijtgranen en beleg": "brood",
-            "Pasta, rijst en wereldkeuken": "pasta",
-            "Soepen, sauzen en kruiden": "conserven",
-            "Snoep, koek en chips": "snacks",
-            "Frisdrank en sappen": "dranken",
-            "Koffie en thee": "dranken",
-            "Bier en wijn": "dranken",
-            "Diepvries": "diepvries",
-            "Bewuste voeding": "overig",
-            "Drogisterij": "drogist",
-            "Baby en kind": "verzorging",
-            "Huishouden": "huishouden",
-            "Huisdier": "overig",
-        }
-        return mapping.get(ah_category, "overig")
+
+        c = ah_category.lower()
+
+        # Zuivel
+        if any(k in c for k in ("kaas", "zuivel", "melk", "yoghurt", "boter", "room", "eieren", "ei")):
+            return "zuivel"
+        # Vlees & vis
+        if any(k in c for k in ("vlees", "kip", "gehakt", "worst", "ham", "bacon", "vis", "zalm", "garnaal", "tonijn", "vega")):
+            return "vlees"
+        # Groente & fruit
+        if any(k in c for k in ("groente", "fruit", "aardappel", "sla", "tomaat", "salade")):
+            return "groente"
+        # Brood
+        if any(k in c for k in ("brood", "bakkerij", "gebak", "ontbijt", "beleg", "cereals", "muesli", "crackers")):
+            return "brood"
+        # Dranken
+        if any(k in c for k in ("bier", "wijn", "frisdrank", "sap", "water", "drank", "koffie", "thee", "cacao")):
+            return "dranken"
+        # Pasta & rijst
+        if any(k in c for k in ("pasta", "rijst", "noodles", "wereldkeuken", "couscous", "aziatisch", "italiaans", "mexicaans")):
+            return "pasta"
+        # Conserven & sauzen
+        if any(k in c for k in ("conserv", "saus", "soep", "kruiden", "olie", "azijn", "ketchup", "mayonaise", "bouillon")):
+            return "conserven"
+        # Snacks
+        if any(k in c for k in ("snoep", "chips", "koek", "chocola", "noten", "snack", "drop", "snoepgoed")):
+            return "snacks"
+        # Diepvries
+        if any(k in c for k in ("diepvries", "ijs", "pizza")):
+            return "diepvries"
+        # Huishouden
+        if any(k in c for k in ("huishoud", "schoonmaak", "wasmiddel", "vaatwas", "keuken")):
+            return "huishouden"
+        # Drogist
+        if any(k in c for k in ("drogist", "medicijn", "vitamine", "gezondheid")):
+            return "drogist"
+        # Verzorging
+        if any(k in c for k in ("verzorging", "shampoo", "tandpasta", "zeep", "douche", "baby", "luier", "toiletpapier", "tissue")):
+            return "verzorging"
+        # Huisdier
+        if any(k in c for k in ("huisdier", "hond", "kat", "voer")):
+            return "overig"
+
+        return "overig"

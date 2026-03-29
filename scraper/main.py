@@ -18,6 +18,7 @@ from pathlib import Path
 
 from .config import DATA_DIR, LOG_DIR
 from .sources import ALL_SOURCES
+from .db import is_db_configured, create_pool, sync_products
 
 # ── Logging ──────────────────────────────────────────────
 
@@ -54,7 +55,7 @@ def save_to_json(products: list, store_id: str):
     return path
 
 
-async def run(store_filter: str | None = None):
+async def run(store_filter: str | None = None, dry_run: bool = False):
     """Run all (or filtered) source adapters."""
     sources = ALL_SOURCES
     if store_filter:
@@ -84,17 +85,29 @@ async def run(store_filter: str | None = None):
             sum(1 for p in products if p.is_deal),
         )
 
-        # Save to JSON (always, for now — DB push added later)
+        # Save to JSON (always — useful for debugging)
         save_to_json(products, source.store_id)
+
+        # Push to database if configured
+        if is_db_configured() and not dry_run:
+            pool = await create_pool()
+            if pool:
+                try:
+                    await sync_products(pool, products, source.store_id)
+                finally:
+                    await pool.close()
+        elif not is_db_configured():
+            logger.info("No database configured — results saved to JSON only")
 
 
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="Oma Zuinig grocery scraper")
     parser.add_argument("--store", type=str, help="Only run this store (e.g. 'ah')")
+    parser.add_argument("--dry-run", action="store_true", help="Fetch but don't push to DB")
     args = parser.parse_args()
 
-    asyncio.run(run(store_filter=args.store))
+    asyncio.run(run(store_filter=args.store, dry_run=args.dry_run))
 
 
 if __name__ == "__main__":
