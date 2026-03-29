@@ -42,12 +42,18 @@
 - Category: `items[].gridbox.data.keyfacts.wonCategoryPrimary`
 - Status: **NEWLY DISCOVERED — needs adapter built**
 
-## Blocked / Need Headless Browser
+### Plus — OutSystems API (DISCOVERED 2026-03-29!)
+- Endpoint: `POST https://www.plus.nl/screenservices/ECP_Composition_CW/ProductLists/PLP_Content/DataActionGetProductListAndCategoryInfo`
+- Auth: Session-based. First GET any page to get Incapsula cookies, then POST with empty X-CSRFToken
+- Required headers: `Content-Type: application/json`, `X-CSRFToken: ""`, `OutSystems-locale: nl-NL`
+- Request body: OutSystems DataAction format with `SearchTerm`, `PageNumber`, `CategoryURL`
+- Response: Full product JSON with SKU, Brand, Name, Price (OriginalPrice/NewPrice), ImageURL, Categories, Packaging, EAN
+- **17,457 total products** across 1,455 pages (12 per page)
+- Deals: `NewPrice > 0` means deal, also has `PromotionLabel`, `PromotionStartDate/EndDate`
+- Categories: Nested list with full hierarchy (e.g. "Vlees, kip, vis, vega" > "Kip, kalkoen" > "Kipfilet")
+- Status: **NEWLY DISCOVERED — needs adapter built**
 
-### Plus
-- Uses INTERSHOP Commerce platform
-- API returns 406 Not Acceptable for all content types
-- Would need Playwright or Apify
+## Blocked / Need Headless Browser
 
 ### Vomar
 - Nuxt-based but no GraphQL or accessible API found
